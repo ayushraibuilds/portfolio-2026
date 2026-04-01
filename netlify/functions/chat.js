@@ -132,7 +132,7 @@ exports.handler = async (event) => {
         contents.push({ role: 'user', parts: [{ text: message }] });
 
         // Call Gemini API
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${API_KEY}`;
         const geminiBody = {
             contents,
             generationConfig: { temperature: 0.7, maxOutputTokens: 256, topP: 0.9 },
@@ -156,8 +156,7 @@ exports.handler = async (event) => {
             statusCode: 500,
             headers,
             body: JSON.stringify({
-                reply: "Sorry, I'm having trouble right now. Reach Ayush directly at ayushraibuilds@gmail.com or WhatsApp +91 9340499553.",
-                debug_error: error.message || String(error)
+                reply: "Sorry, I'm having trouble right now. Reach Ayush directly at ayushraibuilds@gmail.com or WhatsApp +91 9340499553."
             }),
         };
     }

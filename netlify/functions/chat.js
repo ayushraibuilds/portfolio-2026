@@ -156,7 +156,8 @@ exports.handler = async (event) => {
             statusCode: 500,
             headers,
             body: JSON.stringify({
-                reply: "Sorry, I'm having trouble right now. Reach Ayush directly at ayushraibuilds@gmail.com or WhatsApp +91 9340499553."
+                reply: "Sorry, I'm having trouble right now. Reach Ayush directly at ayushraibuilds@gmail.com or WhatsApp +91 9340499553.",
+                debug_error: error.message || String(error)
             }),
         };
     }

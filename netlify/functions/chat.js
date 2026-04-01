@@ -1,3 +1,35 @@
+// Use native fetch (Node 18+) or fall back to https module
+const https = require('https');
+
+function geminiRequest(url, body) {
+    return new Promise((resolve, reject) => {
+        const parsedUrl = new URL(url);
+        const postData = JSON.stringify(body);
+
+        const options = {
+            hostname: parsedUrl.hostname,
+            path: parsedUrl.pathname + parsedUrl.search,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(postData),
+            },
+        };
+
+        const req = https.request(options, (res) => {
+            let data = '';
+            res.on('data', (chunk) => data += chunk);
+            res.on('end', () => {
+                resolve({ ok: res.statusCode >= 200 && res.statusCode < 300, status: res.statusCode, data });
+            });
+        });
+
+        req.on('error', reject);
+        req.write(postData);
+        req.end();
+    });
+}
+
 const SYSTEM_PROMPT = `You are Ayush Rai's AI assistant on his portfolio website.
 
 ABOUT AYUSH:
@@ -100,21 +132,20 @@ exports.handler = async (event) => {
         contents.push({ role: 'user', parts: [{ text: message }] });
 
         // Call Gemini API
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents,
-                    generationConfig: { temperature: 0.7, maxOutputTokens: 256, topP: 0.9 },
-                }),
-            }
-        );
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+        const geminiBody = {
+            contents,
+            generationConfig: { temperature: 0.7, maxOutputTokens: 256, topP: 0.9 },
+        };
 
-        if (!response.ok) throw new Error(`Gemini API error: ${response.status}`);
+        const response = await geminiRequest(geminiUrl, geminiBody);
 
-        const data = await response.json();
+        if (!response.ok) {
+            console.error('Gemini API error:', response.status, response.data);
+            throw new Error(`Gemini API error: ${response.status}`);
+        }
+
+        const data = JSON.parse(response.data);
         const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response.";
 
         return { statusCode: 200, headers, body: JSON.stringify({ reply }) };

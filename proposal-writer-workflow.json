@@ -1,0 +1,249 @@
+{
+    "name": "AI Proposal Writer",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "generate-proposal",
+                "options": {}
+            },
+            "id": "webhook-trigger",
+            "name": "Webhook: Generate Proposal",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 2,
+            "position": [
+                200,
+                300
+            ],
+            "webhookId": "proposal-writer"
+        },
+        {
+            "parameters": {
+                "jsCode": "// Validate and format the incoming request\nconst body = $input.first().json.body || $input.first().json;\n\nconst jobTitle = body.job_title || body.title || 'Unknown Job';\nconst jobDescription = body.job_description || body.description || '';\nconst jobBudget = body.budget || 'Not specified';\nconst jobLink = body.link || body.url || '';\n\nif (!jobDescription || jobDescription.length < 20) {\n  return [{\n    json: {\n      error: true,\n      message: 'Job description is too short or missing. Send {job_title, job_description, budget, link}'\n    }\n  }];\n}\n\nreturn [{\n  json: {\n    job_title: jobTitle,\n    job_description: jobDescription.substring(0, 2000),\n    job_budget: jobBudget,\n    job_link: jobLink,\n    timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })\n  }\n}];"
+            },
+            "id": "validate-input",
+            "name": "Validate Input",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                420,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": false,
+                        "leftValue": "",
+                        "typeValidation": "loose"
+                    },
+                    "combinator": "and",
+                    "conditions": [
+                        {
+                            "id": "check-no-error",
+                            "leftValue": "={{ $json.error }}",
+                            "rightValue": true,
+                            "operator": {
+                                "type": "boolean",
+                                "operation": "notEquals"
+                            }
+                        }
+                    ]
+                }
+            },
+            "id": "check-valid",
+            "name": "Valid Input?",
+            "type": "n8n-nodes-base.filter",
+            "typeVersion": 2,
+            "position": [
+                620,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "modelId": {
+                    "__rl": true,
+                    "value": "gemini-2.0-flash",
+                    "mode": "list"
+                },
+                "messages": {
+                    "values": [
+                        {
+                            "content": "Write an Upwork proposal for developer Ayush Rai.\n\nHis background:\n- B.E. ECE, Meta-Certified Front-End Developer, 3+ years, based in Bengaluru, India\n- Ships production AI systems, not demos. 17+ projects completed.\n- Rate: $40/hr or equivalent fixed price\n\nHis relevant projects (reference 2-3 max that MATCH the job):\n1. TenderPilot AI: AI RFP/tender auto-filler with Chrome extension (React + Node + SQLite + hybrid vector search). Parses documents, auto-drafts answers, fills portal fields. Free/Pro/Team tiers.\n2. D2C Voice Agent: Enterprise WhatsApp voice AI for Indian D2C brands (FastAPI + LangGraph + Groq Whisper + Twilio). Transcribes Hindi/English voice notes, classifies 10 intent types, resolves 80% of tickets autonomously.\n3. Invosmith: AI invoice & proposal generator (Next.js + Gemini/Groq + Resend). Paste Hinglish notes → GST-compliant PDF in 60 seconds. 5 niche templates.\n4. SastaBot: Multilingual WhatsApp price comparison agent (FastAPI + LangGraph + Redis + Twilio). Compares prices across Amazon, Flipkart, Blinkit, Zepto, Instamart.\n5. ONDC Super Seller: B2B seller dashboard (Next.js + FastAPI + Supabase + Twilio WhatsApp). Bulk catalog import, real-time analytics, 140+ tests, CI/CD.\n6. Private Second Brain: Local RAG system (LangChain + ChromaDB + Ollama). Auto-embeds markdown vault, semantic search.\n7. AI Email Pipeline: n8n + Gemini + Gmail auto-classification & reply system.\n\nRules:\n- First line MUST hook — NOT 'Dear hiring manager' or 'I am writing to...'\n- Reference 2-3 specific projects that match THEIR job requirements\n- Mirror specific tech keywords from THEIR job post\n- End with EITHER: a paid trial task offer OR one smart clarifying question\n- Max 200 words total\n- Sign off as 'Ayush Rai'\n- Tone: confident, direct, no fluff\n\nReturn ONLY valid JSON:\n{\"proposal\": \"the full proposal text\", \"matching_projects\": [\"project names\"], \"confidence\": 0-100, \"suggested_rate\": \"$X/hr or $X fixed\"}"
+                        },
+                        {
+                            "content": "=Job Title: {{ $json.job_title }}\n\nJob Description:\n{{ $json.job_description }}\n\nBudget: {{ $json.job_budget }}"
+                        }
+                    ]
+                },
+                "options": {
+                    "temperature": 0.7,
+                    "maxOutputTokens": 1024
+                }
+            },
+            "id": "ai-write-proposal",
+            "name": "AI: Write Proposal",
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                840,
+                300
+            ],
+            "credentials": {
+                "googleGeminiApi": {
+                    "id": "REPLACE_WITH_YOUR_GEMINI_CREDENTIAL_ID",
+                    "name": "Google Gemini"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsCode": "// Parse the AI proposal response\nconst aiResponse = $input.first().json;\nconst originalJob = $('Validate Input').first().json;\nlet parsed;\n\ntry {\n  const rawText = aiResponse.text || aiResponse.output || JSON.stringify(aiResponse);\n  const cleaned = rawText.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  parsed = {\n    proposal: 'Error generating proposal. Please try again.',\n    matching_projects: [],\n    confidence: 0,\n    suggested_rate: 'N/A'\n  };\n}\n\nreturn [{\n  json: {\n    ...originalJob,\n    ...parsed,\n    date: new Date().toISOString().split('T')[0]\n  }\n}];"
+            },
+            "id": "parse-proposal",
+            "name": "Parse Proposal",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                1060,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "=https://api.telegram.org/botREPLACE_WITH_YOUR_TELEGRAM_BOT_TOKEN/sendMessage",
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "chat_id",
+                            "value": "REPLACE_WITH_YOUR_TELEGRAM_CHAT_ID"
+                        },
+                        {
+                            "name": "text",
+                            "value": "=✍️ PROPOSAL GENERATED ({{ $json.confidence }}% confidence)\n\n📋 {{ $json.job_title }}\n💰 Suggested: {{ $json.suggested_rate }}\n🔗 {{ $json.matching_projects.join(', ') }}\n\n---\n\n{{ $json.proposal }}\n\n---\n🔗 {{ $json.job_link }}"
+                        },
+                        {
+                            "name": "parse_mode",
+                            "value": "HTML"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "telegram-proposal",
+            "name": "Telegram: Send Proposal",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                1280,
+                200
+            ]
+        },
+        {
+            "parameters": {
+                "operation": "append",
+                "documentId": {
+                    "__rl": true,
+                    "value": "REPLACE_WITH_PROPOSALS_SHEET_ID",
+                    "mode": "id"
+                },
+                "sheetName": {
+                    "__rl": true,
+                    "value": "Sheet1",
+                    "mode": "list"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "Date": "={{ $json.date }}",
+                        "Job Title": "={{ $json.job_title }}",
+                        "Confidence": "={{ $json.confidence }}",
+                        "Matching Projects": "={{ $json.matching_projects.join(', ') }}",
+                        "Suggested Rate": "={{ $json.suggested_rate }}",
+                        "Proposal": "={{ $json.proposal }}",
+                        "Job Link": "={{ $json.job_link }}",
+                        "Status": "=Draft"
+                    },
+                    "matchingColumns": [],
+                    "schema": [
+                        {"id": "Date", "displayName": "Date", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Job Title", "displayName": "Job Title", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Confidence", "displayName": "Confidence", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Matching Projects", "displayName": "Matching Projects", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Suggested Rate", "displayName": "Suggested Rate", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Proposal", "displayName": "Proposal", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Job Link", "displayName": "Job Link", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Status", "displayName": "Status", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true}
+                    ]
+                },
+                "options": {}
+            },
+            "id": "log-proposal",
+            "name": "Log Proposal",
+            "type": "n8n-nodes-base.googleSheets",
+            "typeVersion": 4.5,
+            "position": [
+                1280,
+                420
+            ],
+            "credentials": {
+                "googleSheetsOAuth2Api": {
+                    "id": "REPLACE_WITH_YOUR_SHEETS_CREDENTIAL_ID",
+                    "name": "Google Sheets"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ JSON.stringify({ success: true, proposal: $json.proposal, confidence: $json.confidence, matching_projects: $json.matching_projects, suggested_rate: $json.suggested_rate }) }}",
+                "options": {}
+            },
+            "id": "webhook-response",
+            "name": "Respond to Webhook",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1.1,
+            "position": [
+                1500,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook: Generate Proposal": {
+            "main": [[{"node": "Validate Input", "type": "main", "index": 0}]]
+        },
+        "Validate Input": {
+            "main": [[{"node": "Valid Input?", "type": "main", "index": 0}]]
+        },
+        "Valid Input?": {
+            "main": [[{"node": "AI: Write Proposal", "type": "main", "index": 0}]]
+        },
+        "AI: Write Proposal": {
+            "main": [[{"node": "Parse Proposal", "type": "main", "index": 0}]]
+        },
+        "Parse Proposal": {
+            "main": [
+                [
+                    {"node": "Telegram: Send Proposal", "type": "main", "index": 0},
+                    {"node": "Log Proposal", "type": "main", "index": 0},
+                    {"node": "Respond to Webhook", "type": "main", "index": 0}
+                ]
+            ]
+        }
+    },
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [
+        {"name": "AI", "id": "1"},
+        {"name": "Upwork", "id": "5"},
+        {"name": "Proposal", "id": "7"}
+    ],
+    "pinData": {}
+}

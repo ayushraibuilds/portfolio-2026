@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayush Rai — AI Solutions Expert | Chatbots, Automation & AI Content</title>
+    <meta name="description"
+        content="Hi, I'm Ayush Rai — Meta-certified developer & AI specialist. I help businesses save time with custom AI chatbots, workflow automation, and AI-powered content. Message me on WhatsApp or email ayushraibuilds@gmail.com.">
+    <meta name="keywords"
+        content="AI chatbot, business automation, AI content, workflow automation, ChatGPT, AI agent, freelance AI developer">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chatbot.css">
+</head>
+
+<body>
+    <!-- 3D Hero Background -->
+    <div id="hero-3d-container"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">AI<span class="accent">Craft</span></span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#process" class="nav-link">Process</a>
+                <a href="#contact" class="nav-link cta-link">Let's Talk</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <img src="assets/hero-bg.png" alt="" class="hero-bg-img">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-profile" data-animate="fade-up">
+                <img src="assets/profile.jpeg" alt="Ayush Rai" class="hero-avatar">
+            </div>
+            <div class="hero-badge" data-animate="fade-up" data-delay="50">
+                <span class="badge-dot"></span>
+                Available for new projects
+            </div>
+            <h1 class="hero-title" data-animate="fade-up" data-delay="100">
+                Hi, I'm <span class="gradient-text">Ayush Rai</span><br>
+                I Build AI Systems That Run in Production
+            </h1>
+            <p class="hero-subtitle" data-animate="fade-up" data-delay="200">
+                LangGraph agents. WhatsApp bots. RAG pipelines. SaaS tools — 17 shipped projects, zero demos-only.
+                <strong>Meta-Certified</strong> developer & AI specialist based in Bengaluru.
+                I build the whole system, not just the AI layer.
+            </p>
+            <div class="hero-actions" data-animate="fade-up" data-delay="300">
+                <a href="#contact" class="btn btn-primary">
+                    <span>Claim Your Free AI Audit</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+                <a href="#projects" class="btn btn-secondary">
+                    <span>View My Work</span>
+                </a>
+            </div>
+            <div class="hero-stats" data-animate="fade-up" data-delay="400">
+                <div class="stat">
+                    <span class="stat-number" data-count="3">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-number" data-count="17">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">Projects Shipped</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-number" data-count="5">0</span><span class="stat-suffix">+</span>
+                    <span class="stat-label">AI Systems Live</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Tech Marquee Section -->
+    <div class="tech-marquee-container">
+        <p class="marquee-title">Integrating With Tools You Already Use</p>
+        <div class="tech-marquee">
+            <div class="marquee-track">
+                <!-- Set 1 -->
+                <span class="marquee-item">Shopify</span>
+                <span class="marquee-item">WordPress</span>
+                <span class="marquee-item">WhatsApp API</span>
+                <span class="marquee-item">React / Next.js</span>
+                <span class="marquee-item">Zapier</span>
+                <span class="marquee-item">n8n</span>
+                <span class="marquee-item">ChatGPT / OpenAI</span>
+                <span class="marquee-item">Meta Ads</span>
+                <!-- Set 2 (Duplicates for infinite scroll) -->
+                <span class="marquee-item">Shopify</span>
+                <span class="marquee-item">WordPress</span>
+                <span class="marquee-item">WhatsApp API</span>
+                <span class="marquee-item">React / Next.js</span>
+                <span class="marquee-item">Zapier</span>
+                <span class="marquee-item">n8n</span>
+                <span class="marquee-item">ChatGPT / OpenAI</span>
+                <span class="marquee-item">Meta Ads</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">What I Do</span>
+                <h2 class="section-title">AI Solutions That <span class="gradient-text">Drive Results</span></h2>
+                <p class="section-desc">I transform complex AI technology into simple, powerful tools that grow your
+                    business.</p>
+            </div>
+            <div class="services-grid">
+                <!-- Service 1: WhatsApp AI Agents -->
+                <div class="service-card" data-animate="fade-up" data-delay="0">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            <path d="M8 10h.01M12 10h.01M16 10h.01" />
+                        </svg>
+                    </div>
+                    <h3 class="service-title">WhatsApp AI Agents</h3>
+                    <p class="service-desc">Production-grade WhatsApp bots powered by LangGraph — transcribe voice notes, handle Hinglish/multilingual queries, resolve tickets automatically 24/7.</p>
+                    <ul class="service-features">
+                        <li>Voice note transcription (Groq Whisper)</li>
+                        <li>Hindi / English / Hinglish NLP</li>
+                        <li>Order tracking, refunds, FAQs</li>
+                        <li>Human agent handoff built-in</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-from">Starting from</span>
+                        <span class="price-amount">&#8377;12,000</span>
+                    </div>
+                </div>
+                <!-- Service 2: AI SaaS Tools -->
+                <div class="service-card" data-animate="fade-up" data-delay="100">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M3 9h18M9 21V9" />
+                        </svg>
+                    </div>
+                    <h3 class="service-title">AI SaaS Tools</h3>
+                    <p class="service-desc">Full-stack SaaS with AI at the core — auth, billing, subscriptions, PDF generation, RAG pipelines. Not demos, real production systems.</p>
+                    <ul class="service-features">
+                        <li>Document parsing &amp; AI generation</li>
+                        <li>Subscription tiers + Razorpay billing</li>
+                        <li>RAG &amp; vector search pipelines</li>
+                        <li>Next.js + FastAPI + Supabase stack</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-from">Starting from</span>
+                        <span class="price-amount">&#8377;20,000</span>
+                    </div>
+                </div>
+                <!-- Service 3: Workflow Automation -->
+                <div class="service-card" data-animate="fade-up" data-delay="200">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                        </svg>
+                    </div>
+                    <h3 class="service-title">Workflow Automation</h3>
+                    <p class="service-desc">Eliminate manual work with n8n, Zapier, and Make pipelines — classify leads, auto-reply emails, sync CRM data, and log everything automatically.</p>
+                    <ul class="service-features">
+                        <li>Lead capture &#x2192; AI classify &#x2192; auto-reply</li>
+                        <li>n8n + Gemini / OpenAI pipelines</li>
+                        <li>CRM &amp; Google Sheets integration</li>
+                        <li>Delivered in 3&#8211;5 days</li>
+                    </ul>
+                    <div class="service-price">
+                        <span class="price-from">Starting from</span>
+                        <span class="price-amount">&#8377;5,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">My Arsenal</span>
+                <h2 class="section-title">Tech <span class="gradient-text">Stack</span></h2>
+                <p class="section-desc">Technologies I use to build powerful solutions.</p>
+            </div>
+            <div class="skills-grid" data-animate="fade-up" data-delay="100">
+                <div class="skill-category">
+                    <h3 class="skill-cat-title">Frontend</h3>
+                    <div class="skill-pills">
+                        <span class="skill-pill">HTML5</span>
+                        <span class="skill-pill">CSS3</span>
+                        <span class="skill-pill">JavaScript</span>
+                        <span class="skill-pill">React</span>
+                        <span class="skill-pill">Angular</span>
+                        <span class="skill-pill">Bootstrap</span>
+                        <span class="skill-pill">Sass</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3 class="skill-cat-title">Backend & DB</h3>
+                    <div class="skill-pills">
+                        <span class="skill-pill">Node.js</span>
+                        <span class="skill-pill">Express.js</span>
+                        <span class="skill-pill">Python</span>
+                        <span class="skill-pill">.NET</span>
+                        <span class="skill-pill">SQL</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3 class="skill-cat-title">AI & ML</h3>
+                    <div class="skill-pills">
+                        <span class="skill-pill">ChatGPT / Claude API</span>
+                        <span class="skill-pill">AI Agents</span>
+                        <span class="skill-pill">n8n / Zapier</span>
+                        <span class="skill-pill">CNN</span>
+                        <span class="skill-pill">Computer Vision</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3 class="skill-cat-title">Tools & CMS</h3>
+                    <div class="skill-pills">
+                        <span class="skill-pill">Git & GitHub</span>
+                        <span class="skill-pill">WordPress</span>
+                        <span class="skill-pill">Netlify / Vercel</span>
+                        <span class="skill-pill">Figma</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">Portfolio</span>
+                <h2 class="section-title">Recent <span class="gradient-text">Projects</span></h2>
+                <p class="section-desc">Full-stack web apps and AI solutions I've built recently.</p>
+            </div>
+            <div class="projects-grid">
+
+                <!-- Project 1: TenderPilot AI -->
+                <div class="project-card" data-animate="fade-up" data-delay="0" data-project-id="tenderpilot"
+                    style="cursor: pointer;">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y2="13" />
+                                <line x1="16" y1="17" x2="8" y2="17" />
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <span class="project-view">AI SaaS &#x2192;</span>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">React + Node.js</span>
+                            <span class="tag">Vector Search</span>
+                            <span class="tag">Chrome Extension</span>
+                        </div>
+                        <h3 class="project-title">TenderPilot AI</h3>
+                        <p class="project-desc">AI Tender/RFP auto-filler for agencies and IT teams. Parses uploaded RFP documents with hybrid vector search, auto-drafts answers from your knowledge base, and fills portal fields via a Chrome extension. Includes subscription tiers (Free/Pro/Team).</p>
+                        <div class="project-result">
+                            <span class="result-label">Impact:</span>
+                            <span class="result-value">Saves 3 Days Per Bid</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: D2C Voice Agent -->
+                <div class="project-card" data-animate="fade-up" data-delay="100" data-project-id="d2c-voice"
+                    style="cursor: pointer;">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                                <line x1="12" y1="19" x2="12" y2="23" />
+                                <line x1="8" y1="23" x2="16" y2="23" />
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <span class="project-view">AI Agent &#x2192;</span>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">LangGraph</span>
+                            <span class="tag">Groq Whisper</span>
+                            <span class="tag">Twilio WhatsApp</span>
+                        </div>
+                        <h3 class="project-title">D2C Voice AI Agent</h3>
+                        <p class="project-desc">Enterprise WhatsApp support agent for Indian D2C brands. Transcribes Hindi/English voice notes via Groq Whisper, classifies 10 intent types in a LangGraph pipeline, and resolves orders, refunds &amp; tickets autonomously — no human needed for 80% of tickets.</p>
+                        <div class="project-result">
+                            <span class="result-label">Stack:</span>
+                            <span class="result-value">FastAPI + LangGraph + Groq</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Invosmith -->
+                <div class="project-card" data-animate="fade-up" data-delay="200" data-project-id="invosmith"
+                    style="cursor: pointer;">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="3" width="20" height="14" rx="2" />
+                                <path d="M8 21h8M12 17v4" />
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <span class="project-view">SaaS Tool &#x2192;</span>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Next.js</span>
+                            <span class="tag">Gemini + Groq</span>
+                            <span class="tag">PWA</span>
+                        </div>
+                        <h3 class="project-title">Invosmith</h3>
+                        <p class="project-desc">AI invoice &amp; proposal generator for Indian freelancers. Paste messy project notes (even in Hinglish) &#x2192; GST-compliant PDF in 60 seconds. Gemini &#x2192; Groq fallback chain, 5 niche templates, document history, and email delivery via Resend.</p>
+                        <div class="project-result">
+                            <span class="result-label">Impact:</span>
+                            <span class="result-value">60-Second GST Invoices</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: SastaBot -->
+                <div class="project-card" data-animate="fade-up" data-delay="300" data-project-id="sastabot"
+                    style="cursor: pointer;">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="9" cy="21" r="1" />
+                                <circle cx="20" cy="21" r="1" />
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <span class="project-view">WhatsApp Bot &#x2192;</span>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">FastAPI</span>
+                            <span class="tag">LangGraph</span>
+                            <span class="tag">Redis + Twilio</span>
+                        </div>
+                        <h3 class="project-title">SastaBot &#x2014; AI Price Comparison</h3>
+                        <p class="project-desc">Multilingual WhatsApp price-comparison agent. Ask in Hindi or English &#x2014; compare prices across Amazon, Flipkart, Blinkit, Zepto &amp; Instamart instantly. FastAPI backend, Redis cache, and affiliate API integration.</p>
+                        <div class="project-result">
+                            <span class="result-label">Markets:</span>
+                            <span class="result-value">5 Platforms, 2 Languages</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: ONDC Super Seller -->
+                <div class="project-card" data-animate="fade-up" data-delay="400" data-project-id="ondc"
+                    style="cursor: pointer;">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                <line x1="3" y1="9" x2="21" y2="9" />
+                                <line x1="9" y1="21" x2="9" y2="9" />
+                            </svg>
+                        </div>
+                        <div class="project-overlay">
+                            <span class="project-view">B2B Dashboard &#x2192;</span>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag">Next.js</span>
+                            <span class="tag">FastAPI + Supabase</span>
+                            <span class="tag">WhatsApp API</span>
+                        </div>
+                        <h3 class="project-title">ONDC Super Seller Platform</h3>
+                        <p class="project-desc">Full-stack B2B dashboard for India's ONDC e-commerce network. WhatsApp-based catalog management, real-time order analytics, bulk product import, JWT + API key auth, 140+ automated tests, and CI/CD via GitHub Actions.</p>
+                        <div class="project-result">
+                            <span class="result-label">Status:</span>
+                            <span class="result-value">Production Ready</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process" id="process">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">How I Work</span>
+                <h2 class="section-title">Simple <span class="gradient-text">3-Step Process</span></h2>
+                <p class="section-desc">From idea to launch in days, not months.</p>
+            </div>
+            <div class="process-steps">
+                <div class="process-step" data-animate="fade-up" data-delay="0">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Send a Message</h3>
+                        <p>Drop me a WhatsApp message or email describing your business and what you need.
+                            I'll reply within a few hours with ideas on how AI can help. <strong>No calls needed —
+                                completely async.</strong></p>
+                    </div>
+                </div>
+                <div class="process-connector"></div>
+                <div class="process-step" data-animate="fade-up" data-delay="100">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Build & Iterate</h3>
+                        <p>I build your solution and share progress daily. You get to test and give feedback at every
+                            stage. No surprises, no delays.</p>
+                    </div>
+                </div>
+                <div class="process-connector"></div>
+                <div class="process-step" data-animate="fade-up" data-delay="200">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Launch & Support</h3>
+                        <p>I deploy your solution and provide 7 days of free support. You also get documentation so your
+                            team can manage it independently.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">Client Love</span>
+                <h2 class="section-title">What People <span class="gradient-text">Say</span></h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card" data-animate="fade-up" data-delay="0">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The WhatsApp chatbot completely transformed how we handle patient
+                        appointments. We went from 30+ missed calls a day to zero. Absolutely worth it."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">DK</div>
+                        <div class="author-info">
+                            <span class="author-name">Dr. Kavitha</span>
+                            <span class="author-role">SmileCare Dental Clinic</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-animate="fade-up" data-delay="100">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Our lead follow-up was a mess before. Now every lead gets an instant
+                        response and personalized nurturing. Our conversion rate literally tripled."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RP</div>
+                        <div class="author-info">
+                            <span class="author-name">Rahul Patel</span>
+                            <span class="author-role">FashionBay E-commerce</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-animate="fade-up" data-delay="200">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"I was skeptical about AI content, but the quality was incredible. Each
+                        post is SEO-optimized and sounds like a human wrote it. Best investment this year."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AS</div>
+                        <div class="author-info">
+                            <span class="author-name">Ananya Singh</span>
+                            <span class="author-role">TechPulse SaaS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-tag">Investment</span>
+                <h2 class="section-title">Transparent <span class="gradient-text">Pricing</span></h2>
+                <p class="section-desc">Clear starting rates to help you plan your budget. No hidden fees or surprises.
+                </p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Basic -->
+                <div class="pricing-card" data-animate="fade-up" data-delay="0">
+                    <div class="pricing-header">
+                        <h3>Workflow Automations</h3>
+                        <div class="price"><span>from</span> $50 <small>(₹4,000)</small></div>
+                    </div>
+                </div>
+                <!-- Standard -->
+                <div class="pricing-card popular" data-animate="fade-up" data-delay="100">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Custom AI Chatbots</h3>
+                        <div class="price"><span>from</span> $100 <small>(₹8,000)</small></div>
+                    </div>
+                </div>
+                <!-- Premium -->
+                <div class="pricing-card" data-animate="fade-up" data-delay="200">
+                    <div class="pricing-header">
+                        <h3>Full-Stack Web Apps</h3>
+                        <div class="price"><span>from</span> $180 <small>(₹15,000)</small></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content" data-animate="fade-up">
+                <h2 class="cta-title">Ready to <span class="gradient-text">Automate</span> Your Business?</h2>
+                <p class="cta-desc">Send me a quick message on WhatsApp or email. I'll analyze your business and show
+                    you
+                    exactly how AI can save you hours every week.</p>
+                <div class="cta-form-wrapper">
+                    <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+                        <input type="hidden" name="subject" value="New Portfolio Lead">
+                        <input type="hidden" name="redirect" value="false">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" name="name" id="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" id="email" placeholder="Email Address" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="tel" name="phone" id="phone" placeholder="Phone / WhatsApp Number">
+                            </div>
+                            <div class="form-group">
+                                <select name="service" id="service" required>
+                                    <option value="" disabled selected>What do you need?</option>
+                                    <option value="WhatsApp AI Agent">WhatsApp AI Agent</option>
+                                    <option value="AI SaaS Tool">AI SaaS Tool</option>
+                                    <option value="Workflow Automation">Workflow Automation</option>
+                                    <option value="RAG / Knowledge System">RAG / Knowledge System</option>
+                                    <option value="Full-Stack Web App">Full-Stack Web App</option>
+                                    <option value="other">Something Else</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" id="message" placeholder="Tell me about your project..." rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <span>Send Message</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                            </svg>
+                        </button>
+                    </form>
+                    <div class="cta-alt">
+                        <p>Or reach out directly:</p>
+                        <div class="social-links">
+                            <a href="https://wa.me/919340499553" class="social-link whatsapp" target="_blank"
+                                rel="noopener">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                                </svg>
+                                WhatsApp
+                            </a>
+                            <a href="mailto:ayushraibuilds@gmail.com" class="social-link email-link">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                Email Me
+                            </a>
+                            <a href="https://www.linkedin.com/in/ayush-rai-b12808236/" class="social-link linkedin"
+                                target="_blank" rel="noopener">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                </svg>
+                                LinkedIn
+                            </a>
+                            <a href="https://github.com/Ashtorments" class="social-link github" target="_blank"
+                                rel="noopener">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                </svg>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">AI<span class="accent">Craft</span></span>
+                </div>
+                <p class="footer-copy">© 2026 Ayush Rai. Built with AI, powered by results.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal Overlay -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal-container">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-tag" id="modalTag">Category</span>
+                    <h2 class="modal-title" id="modalTitle">Project Title</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <h3>The Problem</h3>
+                        <p id="modalProblem">...</p>
+                    </div>
+                    <div class="modal-section">
+                        <h3>The Solution</h3>
+                        <p id="modalSolution">...</p>
+                    </div>
+                    <div class="modal-section">
+                        <h3>The Result</h3>
+                        <p id="modalResult">...</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-primary" id="modalLink" target="_blank" rel="noopener" style="display:none">
+                        <span>View on GitHub →</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chatbot Widget -->
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-avatar">⚡</div>
+                <div class="chat-header-text">
+                    <h4>Ayush's AI Assistant</h4>
+                    <span>Online</span>
+                </div>
+            </div>
+            <div class="chat-header-actions">
+                <button id="chatClearBtn" title="Clear chat">🗑️</button>
+                <button id="chatCloseBtn" title="Close">✕</button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <textarea class="chat-input" id="chatInput" placeholder="Ask about my projects, services..." rows="1"></textarea>
+            <button class="chat-send-btn" id="chatSendBtn">
+                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+    </div>
+    <button class="chat-bubble" id="chatBubble" title="Chat with AI">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+    </button>
+
+    <!-- Sticky WhatsApp -->
+    <a href="https://wa.me/919340499553" class="whatsapp-float" target="_blank" rel="noopener">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg>
+    </a>
+
+    <script src="three-hero.js"></script>
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

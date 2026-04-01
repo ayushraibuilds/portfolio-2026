@@ -1,0 +1,419 @@
+{
+    "name": "Upwork Job Screener Bot",
+    "nodes": [
+        {
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "field": "minutes",
+                            "minutesInterval": 30
+                        }
+                    ]
+                }
+            },
+            "id": "schedule-trigger",
+            "name": "Every 30 Minutes",
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                200,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "url": "https://www.upwork.com/ab/feed/jobs/rss?q=n8n+automation&sort=recency",
+                "options": {
+                    "response": {
+                        "response": {
+                            "responseFormat": "text"
+                        }
+                    }
+                }
+            },
+            "id": "fetch-rss-1",
+            "name": "Fetch: n8n Automation",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                420,
+                100
+            ]
+        },
+        {
+            "parameters": {
+                "url": "https://www.upwork.com/ab/feed/jobs/rss?q=langgraph+python&sort=recency",
+                "options": {
+                    "response": {
+                        "response": {
+                            "responseFormat": "text"
+                        }
+                    }
+                }
+            },
+            "id": "fetch-rss-2",
+            "name": "Fetch: LangGraph Python",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                420,
+                250
+            ]
+        },
+        {
+            "parameters": {
+                "url": "https://www.upwork.com/ab/feed/jobs/rss?q=whatsapp+chatbot+ai&sort=recency",
+                "options": {
+                    "response": {
+                        "response": {
+                            "responseFormat": "text"
+                        }
+                    }
+                }
+            },
+            "id": "fetch-rss-3",
+            "name": "Fetch: WhatsApp Chatbot",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                420,
+                400
+            ]
+        },
+        {
+            "parameters": {
+                "url": "https://www.upwork.com/ab/feed/jobs/rss?q=ai+agent+python&sort=recency",
+                "options": {
+                    "response": {
+                        "response": {
+                            "responseFormat": "text"
+                        }
+                    }
+                }
+            },
+            "id": "fetch-rss-4",
+            "name": "Fetch: AI Agent Python",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                420,
+                550
+            ]
+        },
+        {
+            "parameters": {
+                "url": "https://www.upwork.com/ab/feed/jobs/rss?q=fastapi+ai&sort=recency",
+                "options": {
+                    "response": {
+                        "response": {
+                            "responseFormat": "text"
+                        }
+                    }
+                }
+            },
+            "id": "fetch-rss-5",
+            "name": "Fetch: FastAPI AI",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                420,
+                700
+            ]
+        },
+        {
+            "parameters": {
+                "jsCode": "// Combine all RSS feed responses and extract jobs\nconst items = $input.all();\nconst allJobs = [];\nconst seen = new Set();\n\nfor (const item of items) {\n  const xml = item.json.data || item.json.body || '';\n  \n  // Simple XML parsing for RSS items\n  const itemRegex = /<item>(.*?)<\\/item>/gs;\n  let match;\n  \n  while ((match = itemRegex.exec(xml)) !== null) {\n    const itemXml = match[1];\n    \n    const getTag = (tag) => {\n      const r = new RegExp(`<${tag}[^>]*><!\\\\[CDATA\\\\[(.+?)\\\\]\\\\]><\\\\/${tag}>|<${tag}[^>]*>(.+?)<\\\\/${tag}>`, 's');\n      const m = itemXml.match(r);\n      return m ? (m[1] || m[2] || '').trim() : '';\n    };\n    \n    const title = getTag('title');\n    const link = getTag('link');\n    const description = getTag('description')\n      .replace(/<[^>]+>/g, ' ')\n      .replace(/&amp;/g, '&')\n      .replace(/&lt;/g, '<')\n      .replace(/&gt;/g, '>')\n      .replace(/&quot;/g, '\"')\n      .replace(/\\s+/g, ' ')\n      .trim();\n    const pubDate = getTag('pubDate');\n    \n    // Extract budget if present\n    const budgetMatch = description.match(/Budget:\\s*\\$([\\d,]+)/i) || \n                         description.match(/Hourly Range:\\s*\\$([\\d.]+)-\\$([\\d.]+)/i);\n    const budget = budgetMatch ? budgetMatch[0] : 'Not specified';\n    \n    if (link && !seen.has(link)) {\n      seen.add(link);\n      allJobs.push({\n        title,\n        link,\n        description: description.substring(0, 1000),\n        pubDate,\n        budget,\n        fetchedAt: new Date().toISOString()\n      });\n    }\n  }\n}\n\nreturn allJobs.map(job => ({ json: job }));"
+            },
+            "id": "parse-all-rss",
+            "name": "Parse & Deduplicate RSS",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                700,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "operation": "read",
+                "documentId": {
+                    "__rl": true,
+                    "value": "REPLACE_WITH_SCREENER_SHEET_ID",
+                    "mode": "id"
+                },
+                "sheetName": {
+                    "__rl": true,
+                    "value": "Sheet1",
+                    "mode": "list"
+                },
+                "options": {}
+            },
+            "id": "read-existing-jobs",
+            "name": "Read Existing Jobs",
+            "type": "n8n-nodes-base.googleSheets",
+            "typeVersion": 4.5,
+            "position": [
+                700,
+                520
+            ],
+            "credentials": {
+                "googleSheetsOAuth2Api": {
+                    "id": "REPLACE_WITH_YOUR_SHEETS_CREDENTIAL_ID",
+                    "name": "Google Sheets"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsCode": "// Filter out jobs we've already seen (based on link)\nconst newJobs = $('Parse & Deduplicate RSS').all();\nconst existingJobs = $('Read Existing Jobs').all();\n\nconst existingLinks = new Set(\n  existingJobs.map(item => item.json['Job Link'] || item.json.link || '')\n);\n\nconst unseenJobs = newJobs.filter(job => !existingLinks.has(job.json.link));\n\nif (unseenJobs.length === 0) {\n  // Return empty to stop the workflow\n  return [];\n}\n\nreturn unseenJobs;"
+            },
+            "id": "filter-new-jobs",
+            "name": "Filter New Jobs Only",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                920,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "modelId": {
+                    "__rl": true,
+                    "value": "gemini-2.0-flash",
+                    "mode": "list"
+                },
+                "messages": {
+                    "values": [
+                        {
+                            "content": "You are evaluating an Upwork job posting for developer Ayush Rai.\n\nHis skills: Python, FastAPI, LangGraph, LangChain, n8n, Groq, Gemini, Twilio WhatsApp API, Supabase, Next.js, TypeScript, RAG, ChromaDB, vector search, Chrome extensions, JWT auth, PDF generation, Redis, React, Node.js.\n\nHis projects:\n1. TenderPilot AI: RFP auto-filler (React + Node + hybrid vector search + Chrome extension)\n2. D2C Voice Agent: WhatsApp voice AI (FastAPI + LangGraph + Groq Whisper + Twilio)\n3. Invosmith: AI invoice generator (Next.js + Gemini + Groq + GST-compliant PDFs)\n4. SastaBot: WhatsApp price comparison (FastAPI + LangGraph + Redis + Twilio)\n5. ONDC Super Seller: B2B seller dashboard (Next.js + FastAPI + Supabase + WhatsApp)\n6. Private Second Brain: Local RAG (LangChain + ChromaDB + Ollama)\n7. AI Email Pipeline: n8n + Gemini + Gmail auto-classification\n\nRate this job 0-100:\n- skill_match (0-40): how many required skills does he have?\n- project_proof (0-30): can he reference a real built project?\n- rate_fit (0-15): is the budget reasonable? ($20+/hr or fixed $200+)\n- red_flags (0-15): deduct for: free trial requests, 'guru needed', Shopify/WordPress-only, content writing, data entry, unclear scope\n\nReturn ONLY valid JSON (no markdown, no code fences):\n{\"total_score\": number, \"skill_match\": number, \"project_proof\": number, \"rate_fit\": number, \"red_flags\": number, \"matching_projects\": [\"project1\", \"project2\"], \"verdict\": \"APPLY\" | \"MAYBE\" | \"SKIP\", \"reason\": \"one-line explanation\"}"
+                        },
+                        {
+                            "content": "=Job Title: {{ $json.title }}\n\nJob Description:\n{{ $json.description }}\n\nBudget: {{ $json.budget }}"
+                        }
+                    ]
+                },
+                "options": {
+                    "temperature": 0.3,
+                    "maxOutputTokens": 512
+                }
+            },
+            "id": "ai-score-job",
+            "name": "AI: Score Job",
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                1140,
+                300
+            ],
+            "credentials": {
+                "googleGeminiApi": {
+                    "id": "REPLACE_WITH_YOUR_GEMINI_CREDENTIAL_ID",
+                    "name": "Google Gemini"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsCode": "// Parse the AI scoring response\nconst aiResponse = $input.first().json;\nconst originalJob = $('Filter New Jobs Only').first().json;\nlet parsed;\n\ntry {\n  const rawText = aiResponse.text || aiResponse.output || JSON.stringify(aiResponse);\n  const cleaned = rawText.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  parsed = {\n    total_score: 0,\n    skill_match: 0,\n    project_proof: 0,\n    rate_fit: 0,\n    red_flags: 0,\n    matching_projects: [],\n    verdict: 'SKIP',\n    reason: 'Could not parse AI response'\n  };\n}\n\nreturn [{\n  json: {\n    ...originalJob,\n    ...parsed,\n    date: new Date().toISOString().split('T')[0]\n  }\n}];"
+            },
+            "id": "parse-score",
+            "name": "Parse Score",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                1360,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "operation": "append",
+                "documentId": {
+                    "__rl": true,
+                    "value": "REPLACE_WITH_SCREENER_SHEET_ID",
+                    "mode": "id"
+                },
+                "sheetName": {
+                    "__rl": true,
+                    "value": "Sheet1",
+                    "mode": "list"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "Date": "={{ $json.date }}",
+                        "Job Title": "={{ $json.title }}",
+                        "Score": "={{ $json.total_score }}",
+                        "Verdict": "={{ $json.verdict }}",
+                        "Budget": "={{ $json.budget }}",
+                        "Reason": "={{ $json.reason }}",
+                        "Matching Projects": "={{ $json.matching_projects.join(', ') }}",
+                        "Job Link": "={{ $json.link }}",
+                        "Applied": "=No"
+                    },
+                    "matchingColumns": [],
+                    "schema": [
+                        {"id": "Date", "displayName": "Date", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Job Title", "displayName": "Job Title", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Score", "displayName": "Score", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Verdict", "displayName": "Verdict", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Budget", "displayName": "Budget", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Reason", "displayName": "Reason", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Matching Projects", "displayName": "Matching Projects", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Job Link", "displayName": "Job Link", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Applied", "displayName": "Applied", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true}
+                    ]
+                },
+                "options": {}
+            },
+            "id": "log-all-jobs",
+            "name": "Log All Jobs",
+            "type": "n8n-nodes-base.googleSheets",
+            "typeVersion": 4.5,
+            "position": [
+                1580,
+                200
+            ],
+            "credentials": {
+                "googleSheetsOAuth2Api": {
+                    "id": "REPLACE_WITH_YOUR_SHEETS_CREDENTIAL_ID",
+                    "name": "Google Sheets"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": false,
+                        "leftValue": "",
+                        "typeValidation": "loose"
+                    },
+                    "combinator": "or",
+                    "conditions": [
+                        {
+                            "id": "check-apply",
+                            "leftValue": "={{ $json.verdict }}",
+                            "rightValue": "APPLY",
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals"
+                            }
+                        },
+                        {
+                            "id": "check-maybe",
+                            "leftValue": "={{ $json.verdict }}",
+                            "rightValue": "MAYBE",
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals"
+                            }
+                        }
+                    ]
+                }
+            },
+            "id": "verdict-filter",
+            "name": "APPLY or MAYBE?",
+            "type": "n8n-nodes-base.filter",
+            "typeVersion": 2,
+            "position": [
+                1580,
+                420
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "=https://api.telegram.org/botREPLACE_WITH_YOUR_TELEGRAM_BOT_TOKEN/sendMessage",
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "chat_id",
+                            "value": "REPLACE_WITH_YOUR_TELEGRAM_CHAT_ID"
+                        },
+                        {
+                            "name": "text",
+                            "value": "={{ $json.verdict === 'APPLY' ? '🟢' : '🟡' }} {{ $json.verdict }} ({{ $json.total_score }}/100)\n\n📋 {{ $json.title }}\n💰 {{ $json.budget }}\n📝 {{ $json.reason }}\n🔗 {{ $json.matching_projects.join(', ') }}\n\n🔗 {{ $json.link }}"
+                        },
+                        {
+                            "name": "parse_mode",
+                            "value": "HTML"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "telegram-job-alert",
+            "name": "Telegram: Job Alert",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                1800,
+                420
+            ]
+        }
+    ],
+    "connections": {
+        "Every 30 Minutes": {
+            "main": [
+                [
+                    {"node": "Fetch: n8n Automation", "type": "main", "index": 0},
+                    {"node": "Fetch: LangGraph Python", "type": "main", "index": 0},
+                    {"node": "Fetch: WhatsApp Chatbot", "type": "main", "index": 0},
+                    {"node": "Fetch: AI Agent Python", "type": "main", "index": 0},
+                    {"node": "Fetch: FastAPI AI", "type": "main", "index": 0},
+                    {"node": "Read Existing Jobs", "type": "main", "index": 0}
+                ]
+            ]
+        },
+        "Fetch: n8n Automation": {
+            "main": [[{"node": "Parse & Deduplicate RSS", "type": "main", "index": 0}]]
+        },
+        "Fetch: LangGraph Python": {
+            "main": [[{"node": "Parse & Deduplicate RSS", "type": "main", "index": 0}]]
+        },
+        "Fetch: WhatsApp Chatbot": {
+            "main": [[{"node": "Parse & Deduplicate RSS", "type": "main", "index": 0}]]
+        },
+        "Fetch: AI Agent Python": {
+            "main": [[{"node": "Parse & Deduplicate RSS", "type": "main", "index": 0}]]
+        },
+        "Fetch: FastAPI AI": {
+            "main": [[{"node": "Parse & Deduplicate RSS", "type": "main", "index": 0}]]
+        },
+        "Parse & Deduplicate RSS": {
+            "main": [[{"node": "Filter New Jobs Only", "type": "main", "index": 0}]]
+        },
+        "Filter New Jobs Only": {
+            "main": [[{"node": "AI: Score Job", "type": "main", "index": 0}]]
+        },
+        "AI: Score Job": {
+            "main": [[{"node": "Parse Score", "type": "main", "index": 0}]]
+        },
+        "Parse Score": {
+            "main": [
+                [
+                    {"node": "Log All Jobs", "type": "main", "index": 0},
+                    {"node": "APPLY or MAYBE?", "type": "main", "index": 0}
+                ]
+            ]
+        },
+        "APPLY or MAYBE?": {
+            "main": [[{"node": "Telegram: Job Alert", "type": "main", "index": 0}]]
+        }
+    },
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [
+        {"name": "AI", "id": "1"},
+        {"name": "Upwork", "id": "5"},
+        {"name": "Automation", "id": "3"},
+        {"name": "Job Screener", "id": "6"}
+    ],
+    "pinData": {}
+}

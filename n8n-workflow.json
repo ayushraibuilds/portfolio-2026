@@ -1,0 +1,373 @@
+{
+    "name": "AI Email Auto-Reply Pipeline",
+    "nodes": [
+        {
+            "parameters": {
+                "pollTimes": {
+                    "item": [
+                        {
+                            "mode": "everyMinute",
+                            "minute": 5
+                        }
+                    ]
+                },
+                "filters": {
+                    "readStatus": "unread",
+                    "receivedAfter": ""
+                },
+                "options": {}
+            },
+            "id": "gmail-trigger",
+            "name": "New Email Received",
+            "type": "n8n-nodes-base.gmailTrigger",
+            "typeVersion": 1.2,
+            "position": [
+                200,
+                300
+            ],
+            "credentials": {
+                "gmailOAuth2": {
+                    "id": "REPLACE_WITH_YOUR_GMAIL_CREDENTIAL_ID",
+                    "name": "Gmail - ayushraibuilds"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": false,
+                        "leftValue": "",
+                        "typeValidation": "loose"
+                    },
+                    "combinator": "and",
+                    "conditions": [
+                        {
+                            "id": "filter-noreply",
+                            "leftValue": "={{ $json.from }}",
+                            "rightValue": "noreply",
+                            "operator": {
+                                "type": "string",
+                                "operation": "notContains"
+                            }
+                        },
+                        {
+                            "id": "filter-unsubscribe",
+                            "leftValue": "={{ $json.textPlain || $json.snippet || '' }}",
+                            "rightValue": "unsubscribe",
+                            "operator": {
+                                "type": "string",
+                                "operation": "notContains"
+                            }
+                        },
+                        {
+                            "id": "filter-mailer-daemon",
+                            "leftValue": "={{ $json.from }}",
+                            "rightValue": "mailer-daemon",
+                            "operator": {
+                                "type": "string",
+                                "operation": "notContains"
+                            }
+                        },
+                        {
+                            "id": "filter-no-auto-reply",
+                            "leftValue": "={{ $json.from }}",
+                            "rightValue": "ayushraibuilds@gmail.com",
+                            "operator": {
+                                "type": "string",
+                                "operation": "notEquals"
+                            }
+                        }
+                    ]
+                }
+            },
+            "id": "filter-spam",
+            "name": "Filter Spam & Auto-Replies",
+            "type": "n8n-nodes-base.filter",
+            "typeVersion": 2,
+            "position": [
+                420,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "modelId": {
+                    "__rl": true,
+                    "value": "gemini-2.0-flash",
+                    "mode": "list"
+                },
+                "messages": {
+                    "values": [
+                        {
+                            "content": "You are Ayush Rai's AI assistant. Ayush is an AI Agent Developer & Automation Engineer based in Bengaluru.\n\nHis services and pricing:\n1. WhatsApp AI Agents (LangGraph + Groq Whisper + Twilio) — starting $150 (₹12,000)\n2. AI SaaS Tools (Next.js + FastAPI + Supabase) — starting $250 (₹20,000)\n3. Workflow Automation (n8n, Zapier, Make) — starting $50 (₹5,000)\n4. RAG / Knowledge Systems — custom pricing\n5. Full-Stack Web Development — custom pricing\n\nHis top projects (reference these when relevant):\n- TenderPilot AI: RFP auto-filler with Chrome extension (React + Node + vector search)\n- D2C Voice Agent: WhatsApp voice AI for D2C brands (FastAPI + LangGraph + Groq Whisper)\n- Invosmith: AI GST-compliant invoice generator (Next.js + Gemini + Groq)\n- SastaBot: WhatsApp price comparison bot across 5 platforms (FastAPI + LangGraph + Redis)\n- ONDC Super Seller: B2B seller dashboard for ONDC network (Next.js + FastAPI + Supabase)\n\nAyush has 17+ shipped production projects, is Meta-Certified, and has a B.E. in ECE.\n\nAnalyze the incoming email and respond with ONLY valid JSON (no markdown, no code fences):\n{\n  \"sender_name\": \"extracted name or 'Unknown'\",\n  \"service_interest\": \"whatsapp_agent | ai_saas | automation | rag | webdev | general | other\",\n  \"urgency\": \"high | medium | low\",\n  \"summary\": \"one-line summary of what they want\",\n  \"reply\": \"A warm, professional reply (2-3 paragraphs max). Thank them for reaching out. Briefly mention how you can help based on their need — reference 1-2 relevant projects from the list above. Ask 1-2 clarifying questions. Sign off as Ayush Rai. Do NOT invent pricing not listed above. Keep it conversational and friendly.\"\n}"
+                        },
+                        {
+                            "content": "=From: {{ $json.from }}\nSubject: {{ $json.subject }}\n\nEmail body:\n{{ $json.textPlain || $json.snippet || 'No body content' }}"
+                        }
+                    ]
+                },
+                "options": {
+                    "temperature": 0.7,
+                    "maxOutputTokens": 1024
+                }
+            },
+            "id": "ai-classify-reply",
+            "name": "AI: Classify & Draft Reply",
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                640,
+                300
+            ],
+            "credentials": {
+                "googleGeminiApi": {
+                    "id": "REPLACE_WITH_YOUR_GEMINI_CREDENTIAL_ID",
+                    "name": "Google Gemini"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsCode": "// Parse the AI response JSON\nconst aiResponse = $input.first().json;\nlet parsed;\n\ntry {\n  const rawText = aiResponse.text || aiResponse.output || JSON.stringify(aiResponse);\n  const cleaned = rawText.replace(/```json\\n?/g, '').replace(/```\\n?/g, '').trim();\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  parsed = {\n    sender_name: 'Unknown',\n    service_interest: 'general',\n    urgency: 'medium',\n    summary: 'Could not parse - manual review needed',\n    reply: 'Hi there,\\n\\nThank you for reaching out! I\\'ve received your message and will get back to you shortly with more details.\\n\\nBest regards,\\nAyush Rai\\nAI Solutions Expert'\n  };\n}\n\nconst originalEmail = $('Filter Spam & Auto-Replies').first().json;\n\nreturn [{\n  json: {\n    ...parsed,\n    original_from: originalEmail.from,\n    original_subject: originalEmail.subject,\n    original_email: originalEmail.from.match(/<(.+)>/) ? originalEmail.from.match(/<(.+)>/)[1] : originalEmail.from,\n    date: new Date().toISOString().split('T')[0],\n    timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })\n  }\n}];"
+            },
+            "id": "parse-ai-response",
+            "name": "Parse AI Response",
+            "type": "n8n-nodes-base.code",
+            "typeVersion": 2,
+            "position": [
+                860,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "sendTo": "={{ $json.original_email }}",
+                "subject": "=Re: {{ $('Filter Spam & Auto-Replies').first().json.subject }}",
+                "message": "={{ $json.reply }}",
+                "options": {
+                    "replyTo": "ayushraibuilds@gmail.com",
+                    "appendAttribution": false
+                }
+            },
+            "id": "send-reply",
+            "name": "Send AI Reply",
+            "type": "n8n-nodes-base.gmail",
+            "typeVersion": 2.1,
+            "position": [
+                1080,
+                200
+            ],
+            "credentials": {
+                "gmailOAuth2": {
+                    "id": "REPLACE_WITH_YOUR_GMAIL_CREDENTIAL_ID",
+                    "name": "Gmail - ayushraibuilds"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "operation": "append",
+                "documentId": {
+                    "__rl": true,
+                    "value": "REPLACE_WITH_YOUR_GOOGLE_SHEET_ID",
+                    "mode": "id"
+                },
+                "sheetName": {
+                    "__rl": true,
+                    "value": "Sheet1",
+                    "mode": "list"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "Date": "={{ $json.date }}",
+                        "Name": "={{ $json.sender_name }}",
+                        "Email": "={{ $json.original_email }}",
+                        "Service Interest": "={{ $json.service_interest }}",
+                        "Urgency": "={{ $json.urgency }}",
+                        "Summary": "={{ $json.summary }}",
+                        "Reply Sent": "=Yes",
+                        "Status": "=New Lead"
+                    },
+                    "matchingColumns": [],
+                    "schema": [
+                        {"id": "Date", "displayName": "Date", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Name", "displayName": "Name", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Email", "displayName": "Email", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Service Interest", "displayName": "Service Interest", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Urgency", "displayName": "Urgency", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Summary", "displayName": "Summary", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Reply Sent", "displayName": "Reply Sent", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true},
+                        {"id": "Status", "displayName": "Status", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true}
+                    ]
+                },
+                "options": {}
+            },
+            "id": "log-to-sheet",
+            "name": "Log Lead to Sheet",
+            "type": "n8n-nodes-base.googleSheets",
+            "typeVersion": 4.5,
+            "position": [
+                1080,
+                420
+            ],
+            "credentials": {
+                "googleSheetsOAuth2Api": {
+                    "id": "REPLACE_WITH_YOUR_SHEETS_CREDENTIAL_ID",
+                    "name": "Google Sheets"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": false,
+                        "leftValue": "",
+                        "typeValidation": "loose"
+                    },
+                    "combinator": "or",
+                    "conditions": [
+                        {
+                            "id": "check-high",
+                            "leftValue": "={{ $json.urgency }}",
+                            "rightValue": "high",
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals"
+                            }
+                        },
+                        {
+                            "id": "check-medium",
+                            "leftValue": "={{ $json.urgency }}",
+                            "rightValue": "medium",
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals"
+                            }
+                        }
+                    ]
+                }
+            },
+            "id": "urgency-filter",
+            "name": "Urgency Check",
+            "type": "n8n-nodes-base.filter",
+            "typeVersion": 2,
+            "position": [
+                1080,
+                600
+            ]
+        },
+        {
+            "parameters": {
+                "method": "POST",
+                "url": "=https://api.telegram.org/botREPLACE_WITH_YOUR_TELEGRAM_BOT_TOKEN/sendMessage",
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "chat_id",
+                            "value": "REPLACE_WITH_YOUR_TELEGRAM_CHAT_ID"
+                        },
+                        {
+                            "name": "text",
+                            "value": "={{ $json.urgency === 'high' ? '🔴' : '🟡' }} {{ $json.urgency.toUpperCase() }} LEAD\n\n👤 {{ $json.sender_name }}\n📧 {{ $json.original_email }}\n🎯 {{ $json.service_interest }}\n📝 {{ $json.summary }}\n\n📅 {{ $json.timestamp }}"
+                        },
+                        {
+                            "name": "parse_mode",
+                            "value": "HTML"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "telegram-alert",
+            "name": "Telegram Alert",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.2,
+            "position": [
+                1300,
+                600
+            ]
+        }
+    ],
+    "connections": {
+        "New Email Received": {
+            "main": [
+                [
+                    {
+                        "node": "Filter Spam & Auto-Replies",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Filter Spam & Auto-Replies": {
+            "main": [
+                [
+                    {
+                        "node": "AI: Classify & Draft Reply",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "AI: Classify & Draft Reply": {
+            "main": [
+                [
+                    {
+                        "node": "Parse AI Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Parse AI Response": {
+            "main": [
+                [
+                    {
+                        "node": "Send AI Reply",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Log Lead to Sheet",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Urgency Check",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Urgency Check": {
+            "main": [
+                [
+                    {
+                        "node": "Telegram Alert",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [
+        {"name": "AI", "id": "1"},
+        {"name": "Email", "id": "2"},
+        {"name": "Automation", "id": "3"},
+        {"name": "Lead Pipeline", "id": "4"}
+    ],
+    "pinData": {}
+}

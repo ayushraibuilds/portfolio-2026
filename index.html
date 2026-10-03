@@ -70,6 +70,7 @@
             <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18" /></symbol>
             <symbol id="i-send" viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4 21.9 12 3.4 3.6 3.39 10.1l13.2 1.9-13.2 1.9.01 6.5Z" /></symbol>
             <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" /></symbol>
+            <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5" /><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15" /></symbol>
             <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z" /></symbol>
         </defs>
     </svg>
@@ -104,6 +105,7 @@
     <main id="top">
         <!-- Hero -->
         <section class="hero">
+            <canvas class="hero-field" id="heroField" aria-hidden="true"></canvas>
             <div class="container hero-grid">
                 <div class="hero-copy">
                     <div class="pill reveal"><span class="dot"></span> Open to contract, part-time &amp; project work</div>
@@ -468,7 +470,7 @@
                     <p class="lede">Tell me what you're trying to do. I'll reply with honest thoughts — including when it's not a fit.</p>
                     <ul class="contact-links">
                         <li><a href="https://wa.me/919340499553" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp" /></svg><span><b>WhatsApp</b>+91 93404 99553</span></a></li>
-                        <li><a href="mailto:ayushraibuilds@gmail.com"><svg class="ico"><use href="#i-mail" /></svg><span><b>Email</b>ayushraibuilds@gmail.com</span></a></li>
+                        <li class="has-copy"><a href="mailto:ayushraibuilds@gmail.com"><svg class="ico"><use href="#i-mail" /></svg><span><b>Email</b>ayushraibuilds@gmail.com</span></a><button type="button" class="copy-btn" data-copy="ayushraibuilds@gmail.com" data-label="Email address" aria-label="Copy email address" title="Copy email"><svg class="ico"><use href="#i-copy" /></svg></button></li>
                         <li><a href="https://www.linkedin.com/in/ayush-rai-b12808236/" target="_blank" rel="noopener"><svg class="ico"><use href="#i-linkedin" /></svg><span><b>LinkedIn</b>ayush-rai-b12808236</span></a></li>
                         <li><a href="https://github.com/ayushraibuilds" target="_blank" rel="noopener"><svg class="ico"><use href="#i-github" /></svg><span><b>GitHub</b>ayushraibuilds</span></a></li>
                     </ul>
@@ -517,7 +519,15 @@
     <!-- Project dialog -->
     <dialog class="dialog" id="projectDialog" aria-labelledby="dlgTitle">
         <div class="dialog-in">
-            <button class="dialog-close" id="dlgClose" aria-label="Close"><svg class="ico"><use href="#i-close" /></svg></button>
+            <div class="dlg-top">
+                <span class="dlg-count"><span id="dlgCount">01 / 06</span><kbd class="dlg-hint" aria-hidden="true">← → to browse</kbd></span>
+                <div class="dlg-tools">
+                    <button class="dlg-btn" id="dlgPrev" aria-label="Previous project"><svg class="ico flip"><use href="#i-arrow" /></svg></button>
+                    <button class="dlg-btn" id="dlgNext" aria-label="Next project"><svg class="ico"><use href="#i-arrow" /></svg></button>
+                    <button class="dlg-btn" id="dlgClose" aria-label="Close"><svg class="ico"><use href="#i-close" /></svg></button>
+                </div>
+            </div>
+            <div class="dlg-content" id="dlgContent">
             <p class="eyebrow" id="dlgTag">Project</p>
             <h3 id="dlgTitle">Title</h3>
             <p class="dlg-lede" id="dlgLede"></p>
@@ -529,9 +539,13 @@
             <div class="dlg-actions">
                 <a class="btn btn-primary" id="dlgLink" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-github" /></svg><span>View on GitHub</span></a>
                 <a class="btn btn-ghost" href="#contact" id="dlgTalk"><span>Want something similar?</span></a>
+                <button type="button" class="dlg-next-link" id="dlgNextLink"><span>Next: <b id="dlgNextName">Project</b></span><svg class="ico"><use href="#i-arrow" /></svg></button>
+            </div>
             </div>
         </div>
     </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"><svg class="ico"><use href="#i-check" /></svg><span id="toastText"></span></div>
 
     <!-- AI assistant widget -->
     <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Chat with Ayush's AI assistant" aria-hidden="true">
@@ -557,6 +571,7 @@
     <button class="chat-bubble" id="chatBubble" title="Chat with AI" aria-label="Open chat"><svg class="ico"><use href="#i-chat" /></svg></button>
 
     <script src="script.js" defer></script>
+    <script src="hero-field.js" defer></script>
     <script src="chatbot.js" defer></script>
 </body>
 

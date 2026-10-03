@@ -215,9 +215,11 @@
             rows.forEach(r => r.classList.remove('show'));
             typing.classList.remove('show');
         };
+        // tell the hero signal field (hero-field.js) to send a ripple out from the phone
+        const signal = () => window.dispatchEvent(new CustomEvent('signal:pulse', { detail: { el: $('#phone') } }));
         const play = () => {
             reset();
-            at(500, () => byStep(msgs, 0).classList.add('show'));
+            at(500, () => { byStep(msgs, 0).classList.add('show'); signal(); });
             at(1700, () => { byStep(msgs, 1).classList.add('show'); byStep(rows, 1).classList.add('show'); });
             at(3100, () => byStep(rows, 2).classList.add('show'));
             at(4000, () => typing.classList.add('show'));
@@ -225,6 +227,7 @@
                 typing.classList.remove('show');
                 byStep(msgs, 3).classList.add('show');
                 byStep(rows, 3).classList.add('show');
+                signal();
             });
             at(13000, play);
         };
@@ -238,6 +241,75 @@
             visible = nowVisible;
         }, { threshold: 0.25 }).observe($('#phone'));
     })();
+
+    /* ---------- 3D tilt: hero phone + project cards ---------- */
+    const canTilt = !reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+    // Phone turns to face the cursor anywhere in the hero; trace rows drift at different depths
+    (() => {
+        const phone = $('#phone');
+        const demo = $('.hero-demo');
+        const hero = $('.hero');
+        if (!canTilt || !phone || !demo || !hero) return;
+        const cur = { rx: 0, ry: 0, rz: -2, ty: 0, px: 0, py: 0 };
+        const tgt = { rx: 0, ry: 0, rz: -2, ty: 0, px: 0, py: 0 };
+        let raf = 0, inHero = false, overPhone = false;
+
+        const step = () => {
+            let moving = false;
+            for (const k in cur) {
+                const d = tgt[k] - cur[k];
+                if (Math.abs(d) > 0.002) { cur[k] += d * 0.1; moving = true; } else cur[k] = tgt[k];
+            }
+            phone.style.setProperty('--rx', `${cur.rx.toFixed(3)}deg`);
+            phone.style.setProperty('--ry', `${cur.ry.toFixed(3)}deg`);
+            phone.style.setProperty('--rz', `${cur.rz.toFixed(3)}deg`);
+            phone.style.setProperty('--ty', `${cur.ty.toFixed(2)}px`);
+            demo.style.setProperty('--px', cur.px.toFixed(4));
+            demo.style.setProperty('--py', cur.py.toFixed(4));
+            raf = moving ? requestAnimationFrame(step) : 0;
+            if (!moving && !inHero) phone.classList.remove('is-tilt');
+        };
+        const run = () => { phone.classList.add('is-tilt'); if (!raf) raf = requestAnimationFrame(step); };
+
+        window.addEventListener('pointermove', e => {
+            const hr = hero.getBoundingClientRect();
+            inHero = e.clientY >= hr.top && e.clientY <= hr.bottom;
+            if (!inHero) { Object.assign(tgt, { rx: 0, ry: 0, rz: -2, ty: 0, px: 0, py: 0 }); phone.style.setProperty('--go', '0'); run(); return; }
+            const r = phone.getBoundingClientRect();
+            const dx = clamp((e.clientX - (r.left + r.width / 2)) / (window.innerWidth * 0.5), -1, 1);
+            const dy = clamp((e.clientY - (r.top + r.height / 2)) / (window.innerHeight * 0.5), -1, 1);
+            overPhone = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+            Object.assign(tgt, { ry: dx * 14, rx: -dy * 10, rz: overPhone ? 0 : -2, ty: overPhone ? -6 : 0, px: dx, py: dy });
+            phone.style.setProperty('--gx', `${((e.clientX - r.left) / r.width) * 100}%`);
+            phone.style.setProperty('--gy', `${((e.clientY - r.top) / r.height) * 100}%`);
+            phone.style.setProperty('--go', overPhone ? '1' : '0.4');
+            run();
+        }, { passive: true });
+    })();
+
+    // Project cards tilt under the pointer; the card art drifts for a parallax layer
+    const tiltCard = card => {
+        if (!canTilt) return;
+        card.addEventListener('pointerenter', () => card.classList.add('is-tilt'));
+        card.addEventListener('pointermove', e => {
+            const r = card.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width - 0.5;
+            const py = (e.clientY - r.top) / r.height - 0.5;
+            const wide = r.width > r.height * 1.8;   // the wide card tilts less around Y
+            card.style.transform = `perspective(1100px) rotateX(${(-py * 7).toFixed(2)}deg) rotateY(${(px * (wide ? 4 : 8)).toFixed(2)}deg) translateY(-4px)`;
+            card.style.setProperty('--ax', `${(px * 16).toFixed(1)}px`);
+            card.style.setProperty('--ay', `${(py * 12).toFixed(1)}px`);
+            card.style.setProperty('--ga', `${(Math.atan2(-px, py) * 180 / Math.PI).toFixed(0)}deg`);   // sheen starts at the pointer
+        });
+        card.addEventListener('pointerleave', () => {
+            card.classList.remove('is-tilt');
+            card.style.transform = '';
+            card.style.setProperty('--ax', '0px');
+            card.style.setProperty('--ay', '0px');
+        });
+    };
 
     /* ---------- Flow steps ---------- */
     (() => {
@@ -272,6 +344,7 @@
     /* ---------- Card spotlight + project dialog ---------- */
     const cards = $$('.card[data-project]');
     cards.forEach(card => {
+        tiltCard(card);
         card.addEventListener('pointermove', e => {
             const r = card.getBoundingClientRect();
             card.style.setProperty('--mx', `${e.clientX - r.left}px`);
@@ -280,10 +353,15 @@
     });
 
     const dlg = $('#projectDialog');
+    const ORDER = Object.keys(PROJECTS);
+    const pad = n => String(n).padStart(2, '0');
+    let current = 0;
     const fill = (ul, items) => { ul.replaceChildren(...items.map(t => Object.assign(document.createElement('li'), { textContent: t }))); };
-    const openProject = id => {
-        const p = PROJECTS[id];
-        if (!p || !dlg) return;
+    const render = i => {
+        current = (i + ORDER.length) % ORDER.length;
+        const p = PROJECTS[ORDER[current]];
+        const next = PROJECTS[ORDER[(current + 1) % ORDER.length]];
+        $('#dlgCount').textContent = `${pad(current + 1)} / ${pad(ORDER.length)}`;
         $('#dlgTag').textContent = p.tag;
         $('#dlgTitle').textContent = p.title;
         $('#dlgLede').textContent = p.lede;
@@ -291,6 +369,23 @@
         fill($('#dlgBuilt'), p.built);
         fill($('#dlgStack'), p.stack);
         $('#dlgLink').href = p.link;
+        $('#dlgNextName').textContent = next.title;
+    };
+    const go = dir => {
+        if (!dlg || !dlg.open) return;
+        render(current + dir);
+        dlg.scrollTop = 0;
+        const body = $('#dlgContent');
+        if (!reduceMotion && body.animate) {
+            body.animate(
+                [{ opacity: 0, transform: `translateX(${dir * 22}px)` }, { opacity: 1, transform: 'none' }],
+                { duration: 380, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+            );
+        }
+    };
+    const openProject = id => {
+        if (!dlg || !PROJECTS[id]) return;
+        render(ORDER.indexOf(id));
         dlg.showModal();
         dlg.scrollTop = 0;
     };
@@ -302,8 +397,61 @@
     if (dlg) {
         $('#dlgClose').addEventListener('click', () => dlg.close());
         $('#dlgTalk').addEventListener('click', () => dlg.close());
+        $('#dlgPrev').addEventListener('click', () => go(-1));
+        $('#dlgNext').addEventListener('click', () => go(1));
+        $('#dlgNextLink').addEventListener('click', () => go(1));
         dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+        dlg.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+        });
+        // swipe between projects on touch screens
+        let sx = 0, sy = 0;
+        dlg.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+        dlg.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - sx;
+            const dy = e.changedTouches[0].clientY - sy;
+            if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1);
+        }, { passive: true });
     }
+
+    /* ---------- Toast + copy to clipboard ---------- */
+    const toast = $('#toast');
+    let toastTimer = 0;
+    const showToast = msg => {
+        if (!toast) return;
+        $('#toastText').textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    };
+    const copyText = async text => {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch {
+            const ta = Object.assign(document.createElement('textarea'), { value: text });
+            ta.setAttribute('readonly', '');
+            ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+            document.body.appendChild(ta);
+            ta.select();
+            let ok = false;
+            try { ok = document.execCommand('copy'); } catch { ok = false; }
+            ta.remove();
+            return ok;
+        }
+    };
+    $$('[data-copy]').forEach(btn => {
+        const use = $('use', btn);
+        btn.addEventListener('click', async () => {
+            const ok = await copyText(btn.dataset.copy);
+            if (!ok) { showToast(`Couldn't copy — it's ${btn.dataset.copy}`); return; }
+            showToast(`${btn.dataset.label || 'Text'} copied`);
+            btn.classList.add('done');
+            if (use) use.setAttribute('href', '#i-check');
+            setTimeout(() => { btn.classList.remove('done'); if (use) use.setAttribute('href', '#i-copy'); }, 1800);
+        });
+    });
 
     /* ---------- Contact form (Netlify Forms, with graceful fallback) ---------- */
     (() => {

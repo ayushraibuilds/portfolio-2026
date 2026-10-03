@@ -1,6 +1,6 @@
 /**
  * Portfolio AI Chatbot Widget
- * Connects to Gemini via a Vercel Edge Function proxy
+ * Connects to Gemini via a Netlify Function proxy
  * Falls back to a local system prompt if proxy is unavailable
  */
 
@@ -17,41 +17,44 @@ class AIChatbot {
         this.systemPrompt = `You are Ayush Rai's AI assistant on his portfolio website.
 
 ABOUT AYUSH:
-- AI Agent Developer & Automation Engineer based in Bengaluru, India
-- B.E. Electronics & Communication Engineering, Reva University
-- Meta-Certified Front-End Developer
-- 3+ years experience, 17+ shipped production projects
-- Available for freelance work at $40/hr
+- AI product engineer and full-stack developer based in Faridabad, India (works remotely)
+- Independent since January 2026; before that a web developer at Intelliquant Technomy, Bengaluru (June 2022 - October 2023)
+- B.E. Electronics & Communication Engineering, REVA University; Meta Front-End Developer certificate
+- 15+ projects built end to end and published on GitHub
+- Open to contract, part-time and project work (remote)
 
-SERVICES & PRICING:
-- WhatsApp AI Agents (LangGraph + Groq Whisper + Twilio): from $150 (₹12,000)
-- AI SaaS Tools (Next.js + FastAPI + Supabase): from $250 (₹20,000)
-- Workflow Automation (n8n, Zapier, Make): from $50 (₹5,000)
-- RAG / Knowledge Systems: custom pricing
-- Full-Stack Web Development: custom pricing
+SERVICES & INDICATIVE STARTING PRICES (INR, scoped per project; USD quotes on request):
+- Prototype or product demo: from Rs 10,000
+- Automation sprint (3 workflows in n8n/Python): from Rs 15,000
+- Business or portfolio website: from Rs 20,000
+- WhatsApp / voice AI agent (LangGraph, webhooks, Supabase, handoff, ops dashboard): from Rs 60,000
+- Web app or SaaS MVP (Next.js, Supabase/FastAPI, auth, payments, tests, CI): from Rs 80,000
+- Typical terms: 40-50% upfront, 7 days post-launch support. Part-time and hourly engagements available.
 
-TOP PROJECTS:
-1. TenderPilot AI — RFP auto-filler. Parses tender documents with hybrid vector search, auto-drafts answers, fills portal fields via Chrome extension. React + Node + SQLite + Supabase. Free/Pro/Team tiers.
-2. D2C Voice AI Agent — WhatsApp support agent for Indian D2C brands. Transcribes Hindi/English voice notes via Groq Whisper, classifies 10 intent types in LangGraph, resolves 80% of tickets autonomously. FastAPI + LangGraph + Twilio.
-3. Invosmith — AI invoice generator for Indian freelancers. Paste Hinglish notes → GST-compliant PDF in 60 seconds. Gemini → Groq fallback chain. Next.js + 5 templates + Resend email delivery.
-4. SastaBot — Multilingual WhatsApp price comparison agent. Compare prices across Amazon, Flipkart, Blinkit, Zepto, Instamart in Hindi or English. FastAPI + LangGraph + Redis.
-5. ONDC Super Seller — B2B seller dashboard for India's ONDC network. WhatsApp catalog management, bulk product import, real-time analytics, 140+ automated tests. Next.js + FastAPI + Supabase.
+PROJECTS (all on github.com/ayushraibuilds):
+1. ONDC Super Seller - WhatsApp-first catalog and inventory platform. Sellers update products by text, voice note or photo. FastAPI, Celery, Redis, Supabase, Next.js; 140 automated tests in CI.
+2. D2C Voice AI Agent - WhatsApp support agent that handles Hindi/Hinglish voice notes with Groq Whisper and a 10-intent LangGraph state machine.
+3. TenderPilot AI - RFP/tender auto-filler with hybrid retrieval and a Chrome extension.
+4. InvoSmith - Hinglish notes to GST-compliant invoice PDFs. Next.js, Gemini with Groq fallback.
+5. SastaBot and DropAlert - price comparison across 5 platforms in Hindi/English, plus a price-drop watcher polling 7 retailers every 5 minutes.
+6. IndiFit and FlowOS - offline-first Flutter apps (573 bundled Indian foods, Health Connect / HealthKit sync).
 
-TECH STACK: Python, FastAPI, LangGraph, LangChain, n8n, Next.js, React, TypeScript, Supabase, Groq, Gemini, Twilio, ChromaDB, Redis, Node.js, JWT, vector search
+TECH STACK: Python, FastAPI, LangGraph, LangChain, RAG, Celery, Redis, Supabase/PostgreSQL, Node.js, Next.js, React, TypeScript, Flutter, WhatsApp Business API, Docker, GitHub Actions; earlier foundations in HTML/CSS/JavaScript, Angular, Bootstrap, .NET, SQL/MySQL, WordPress, Java.
 
 CONTACT:
-- WhatsApp: +91 9340499553
+- WhatsApp: +91 93404 99553
 - Email: ayushraibuilds@gmail.com
-- GitHub: github.com/Ashtorments
+- GitHub: github.com/ayushraibuilds
+- LinkedIn: linkedin.com/in/ayush-rai-b12808236
 
 RULES:
-- Be helpful, concise, and professional
-- If asked about pricing, give the ranges above and suggest a call for custom quotes
-- If asked to do something you can't (write code, debug, etc.), politely redirect to contacting Ayush
-- Always try to convert the conversation to a lead: suggest contacting via WhatsApp or email
-- Max 3 sentences per response unless specifically asked for detail
-- Use emojis sparingly (max 1 per message)
-- If greeting, say "Hey! I'm Ayush's AI assistant. Ask me anything about his work, services, or projects."`;
+- Be helpful, concise and professional (max 3 sentences unless asked for detail)
+- Only state facts listed above. If you don't know something, say so and suggest contacting Ayush
+- Never invent clients, testimonials, metrics or availability dates
+- If asked about pricing, give the indicative ranges above and say the final quote depends on scope
+- If asked to write code or debug, politely redirect to contacting Ayush
+- Where it fits, suggest WhatsApp or email as the next step
+- Use emojis rarely (max 1 per message)`;
 
         this.history = this.loadHistory();
         this.init();
@@ -91,7 +94,8 @@ RULES:
 
         // Show welcome message if no history
         if (this.history.length === 0) {
-            this.addBotMessage("Hey! 👋 I'm Ayush's AI assistant. Ask me anything about his work, services, or projects.");
+            this.addBotMessage("Hey, I'm Ayush's AI assistant. Ask me about his projects, services or availability.");
+            this.renderSuggestions();
         }
     }
 
@@ -105,6 +109,8 @@ RULES:
 
     open() {
         this.isOpen = true;
+        this.panel.setAttribute('aria-hidden', 'false');
+        this.bubble.setAttribute('aria-label', 'Close chat');
         this.panel.classList.add('open');
         this.bubble.classList.add('active');
         this.input.focus();
@@ -113,8 +119,30 @@ RULES:
 
     close() {
         this.isOpen = false;
+        this.panel.setAttribute('aria-hidden', 'true');
+        this.bubble.setAttribute('aria-label', 'Open chat');
         this.panel.classList.remove('open');
         this.bubble.classList.remove('active');
+    }
+
+    renderSuggestions() {
+        this.removeSuggestions();
+        const wrap = document.createElement('div');
+        wrap.className = 'chat-suggest';
+        wrap.id = 'chatSuggest';
+        ['What have you built?', 'Pricing?', 'Are you available?'].forEach(q => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.textContent = q;
+            b.addEventListener('click', () => { this.input.value = q; this.sendMessage(); });
+            wrap.appendChild(b);
+        });
+        this.messagesContainer.appendChild(wrap);
+    }
+
+    removeSuggestions() {
+        const old = document.getElementById('chatSuggest');
+        if (old) old.remove();
     }
 
     // --- Message Handling ---
@@ -125,6 +153,7 @@ RULES:
 
         this.input.value = '';
         this.input.style.height = 'auto';
+        this.removeSuggestions();
         this.addUserMessage(text);
         this.showTyping();
 
@@ -134,7 +163,7 @@ RULES:
             this.addBotMessage(response);
         } catch (error) {
             this.hideTyping();
-            this.addBotMessage("Sorry, I'm having trouble connecting right now. You can reach Ayush directly at ayushraibuilds@gmail.com or WhatsApp +91 9340499553.");
+            this.addBotMessage("Sorry, I'm having trouble connecting right now. You can reach Ayush directly at ayushraibuilds@gmail.com or WhatsApp +91 93404 99553.");
         }
     }
 
@@ -230,26 +259,27 @@ RULES:
         }
     }
 
-    // Fallback responses when API is unavailable
+    // Fallback responses when the API is unavailable
     fallbackResponse(message) {
         const lower = message.toLowerCase();
+        const has = (...words) => words.some(w => lower.includes(w));
 
-        if (lower.includes('price') || lower.includes('cost') || lower.includes('rate') || lower.includes('charge')) {
-            return "Ayush's services start at $50 (₹5,000) for workflow automation, $150 (₹12,000) for WhatsApp AI agents, and $250 (₹20,000) for full AI SaaS tools. For a custom quote, reach out at ayushraibuilds@gmail.com.";
+        if (has('pric', 'cost', 'rate', 'charge', 'quote', 'budget', 'how much')) {
+            return "Indicative starting points: prototypes from ₹10,000, automation sprints from ₹15,000, websites from ₹20,000, WhatsApp AI agents from ₹60,000 and web app / SaaS MVPs from ₹80,000. Final quotes depend on scope — email ayushraibuilds@gmail.com for one.";
         }
-        if (lower.includes('project') || lower.includes('portfolio') || lower.includes('built') || lower.includes('work')) {
-            return "Ayush has shipped 17+ production projects including TenderPilot AI (RFP auto-filler), D2C Voice Agent (WhatsApp voice AI), Invosmith (AI invoice generator), SastaBot (price comparison bot), and ONDC Super Seller (B2B dashboard). Scroll down to the Projects section to see details!";
+        if (has('project', 'portfolio', 'built', 'work', 'github')) {
+            return "Highlights: ONDC Super Seller (WhatsApp-first catalog platform, 140 tests in CI), a Hinglish voice support agent on LangGraph, TenderPilot AI (RFP auto-filler), InvoSmith (GST invoices), SastaBot / DropAlert and the IndiFit Flutter app. Open any card in the Work section, or see github.com/ayushraibuilds.";
         }
-        if (lower.includes('contact') || lower.includes('hire') || lower.includes('available') || lower.includes('whatsapp')) {
-            return "Ayush is currently available for freelance work! Best ways to reach him: WhatsApp +91 9340499553 or email ayushraibuilds@gmail.com. He typically responds within 2 hours.";
+        if (has('contact', 'hire', 'available', 'whatsapp', 'email', 'reach')) {
+            return "Ayush is open to contract, part-time and project work. Reach him on WhatsApp at +91 93404 99553 or email ayushraibuilds@gmail.com.";
         }
-        if (lower.includes('tech') || lower.includes('stack') || lower.includes('skill')) {
-            return "Ayush's core stack: Python, FastAPI, LangGraph, LangChain, n8n, Next.js, React, TypeScript, Supabase, Groq, Gemini, Twilio, Redis, and vector databases. He specializes in production AI systems.";
+        if (has('tech', 'stack', 'skill', 'language', 'framework')) {
+            return "Python, FastAPI, LangGraph, LangChain, RAG, Celery/Redis, Supabase, Next.js, React, TypeScript and Flutter — plus web foundations in Angular, .NET, SQL and WordPress.";
         }
-        if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
-            return "Hey! I'm Ayush's AI assistant. Ask me about his projects, services, pricing, or tech stack — or I can help you get in touch with him directly.";
+        if (has('hello', 'hi ', 'hey') || lower.trim() === 'hi') {
+            return "Hey! I'm Ayush's AI assistant. Ask me about his projects, services, pricing or tech stack.";
         }
-        return "I'd love to help! You can ask me about Ayush's projects, services, pricing, or tech stack. For specific inquiries, reach out directly at ayushraibuilds@gmail.com or WhatsApp +91 9340499553.";
+        return "I can tell you about Ayush's projects, services, pricing or stack. For anything specific, email ayushraibuilds@gmail.com or WhatsApp +91 93404 99553.";
     }
 
     // --- History Management ---
@@ -290,7 +320,8 @@ RULES:
         this.history = [];
         localStorage.removeItem(this.STORAGE_KEY);
         this.messagesContainer.innerHTML = '';
-        this.addBotMessage("Chat cleared! 🧹 How can I help you?");
+        this.addBotMessage("Chat cleared. How can I help?");
+        this.renderSuggestions();
     }
 }
 

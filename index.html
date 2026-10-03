@@ -4,766 +4,560 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayush Rai — AI Solutions Expert | Chatbots, Automation & AI Content</title>
+    <title>Ayush Rai — AI Product Engineer · WhatsApp Agents, RAG &amp; Full-Stack</title>
     <meta name="description"
-        content="Hi, I'm Ayush Rai — Meta-certified developer & AI specialist. I help businesses save time with custom AI chatbots, workflow automation, and AI-powered content. Message me on WhatsApp or email ayushraibuilds@gmail.com.">
-    <meta name="keywords"
-        content="AI chatbot, business automation, AI content, workflow automation, ChatGPT, AI agent, freelance AI developer">
+        content="Ayush Rai is an AI product engineer who builds WhatsApp agents, voice and RAG pipelines, and the full-stack web and mobile apps around them (Python, FastAPI, LangGraph, Next.js, Flutter). Open to contract, part-time and project work.">
+    <meta name="theme-color" content="#08090c">
     <link rel="canonical" href="https://ayushrai-ai.netlify.app/">
-    
-    <!-- Open Graph / Social share -->
-    <meta property="og:title" content="Ayush Rai — AI Solutions Expert">
-    <meta property="og:description" content="Meta-certified developer & AI specialist building production-ready AI agents and workflows.">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Ayush Rai — AI Product Engineer">
+    <meta property="og:description" content="WhatsApp agents, voice and RAG pipelines, and the full-stack web and mobile apps around them. 15+ products built end to end.">
     <meta property="og:url" content="https://ayushrai-ai.netlify.app/">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://ayushrai-ai.netlify.app/assets/profile.jpeg">
+    <meta property="og:image" content="https://ayushrai-ai.netlify.app/assets/og.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ayush Rai — AI Solutions Expert">
-    <meta name="twitter:description" content="Meta-certified developer & AI specialist building production-ready AI agents and workflows.">
-    <meta name="twitter:image" content="https://ayushrai-ai.netlify.app/assets/profile.jpeg">
+    <meta name="twitter:title" content="Ayush Rai — AI Product Engineer">
+    <meta name="twitter:description" content="WhatsApp agents, voice and RAG pipelines, and the full-stack web and mobile apps around them.">
+    <meta name="twitter:image" content="https://ayushrai-ai.netlify.app/assets/og.png">
 
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-    
-    <!-- JSON-LD Structured Data -->
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Ayush Rai",
-      "jobTitle": "AI Solutions Expert",
+      "jobTitle": "AI Product Engineer",
       "url": "https://ayushrai-ai.netlify.app/",
+      "email": "mailto:ayushraibuilds@gmail.com",
+      "image": "https://ayushrai-ai.netlify.app/assets/profile.jpeg",
+      "address": { "@type": "PostalAddress", "addressLocality": "Faridabad", "addressRegion": "Haryana", "addressCountry": "IN" },
+      "alumniOf": { "@type": "CollegeOrUniversity", "name": "REVA University" },
+      "knowsAbout": ["LangGraph", "LangChain", "RAG", "WhatsApp Business API", "FastAPI", "Next.js", "Flutter", "Supabase", "Python", "TypeScript"],
       "sameAs": [
         "https://www.linkedin.com/in/ayush-rai-b12808236/",
-        "https://github.com/Ashtorments"
+        "https://github.com/ayushraibuilds"
       ]
     }
     </script>
 
-    <!-- Fallback for users with disabled JS -->
     <noscript>
         <style>
-            [data-animate] { opacity: 1 !important; transform: none !important; }
-            #hero-3d-container { display: none !important; }
+            .reveal { opacity: 1 !important; transform: none !important; }
         </style>
     </noscript>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-    <!-- GSAP + ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="chatbot.css">
 </head>
 
 <body>
-    <a href="#services" class="skip-link">Skip to main content</a>
-    <!-- 3D Hero Background -->
-    <div id="hero-3d-container"></div>
+    <!-- Icon sprite -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></symbol>
+            <symbol id="i-arrow-ur" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9" /></symbol>
+            <symbol id="i-github" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" /></symbol>
+            <symbol id="i-linkedin" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z" /></symbol>
+            <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3.5 7 8.5 6 8.5-6" /></symbol>
+            <symbol id="i-whatsapp" viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.7.31 1.26.49 1.7.63.72.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35ZM12.05 21.8a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88ZM20.46 3.49A11.8 11.8 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.9 11.9 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.42Z" /></symbol>
+            <symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3" /><path d="M5 11a7 7 0 0 0 14 0M12 18v3" /></symbol>
+            <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></symbol>
+            <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18" /></symbol>
+            <symbol id="i-send" viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4 21.9 12 3.4 3.6 3.39 10.1l13.2 1.9-13.2 1.9.01 6.5Z" /></symbol>
+            <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" /></symbol>
+            <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.6A8 8 0 1 1 21 12Z" /></symbol>
+        </defs>
+    </svg>
+
+    <a href="#work" class="skip-link">Skip to content</a>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <div class="ambient" aria-hidden="true"><i></i><i></i><i></i></div>
 
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-container">
-            <a href="#" class="nav-logo">
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">AI<span class="accent">Craft</span></span>
+    <header class="nav-wrap">
+        <nav class="nav" id="nav" aria-label="Primary">
+            <a href="#top" class="brand" aria-label="Ayush Rai — home">
+                <span class="brand-mark">AR</span>
+                <span class="brand-name">Ayush Rai</span>
             </a>
             <div class="nav-links" id="navLinks">
-                <a href="#services" class="nav-link">Services</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#process" class="nav-link">Process</a>
-                <a href="#contact" class="nav-link cta-link">Let's Talk</a>
+                <a href="#work">Work</a>
+                <a href="#how">How it works</a>
+                <a href="#services">Services</a>
+                <a href="#stack">Stack</a>
+                <a href="#about">About</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#contact" class="only-mobile">Contact</a>
             </div>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
+            <a href="#contact" class="btn btn-sm btn-primary nav-cta"><span>Let's talk</span><svg class="ico"><use href="#i-arrow" /></svg></a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+                <span></span><span></span>
             </button>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="hero-bg">
-            <div class="hero-overlay"></div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-profile" data-animate="fade-up">
-                <img src="assets/profile.jpeg" alt="Ayush Rai" class="hero-avatar">
-            </div>
-            <div class="hero-badge" data-animate="fade-up" data-delay="50">
-                <span class="badge-dot"></span>
-                Available for new projects
-            </div>
-            <h1 class="hero-title" data-animate="fade-up" data-delay="100">
-                Hi, I'm <span class="gradient-text">Ayush Rai</span><br>
-                I Build AI Systems That Run in Production
-            </h1>
-            <p class="hero-subtitle" data-animate="fade-up" data-delay="200">
-                LangGraph agents. WhatsApp bots. RAG pipelines. SaaS tools — 17 shipped projects, zero demos-only.
-                <strong>Meta-Certified</strong> developer & AI specialist based in Bengaluru.
-                I build the whole system, not just the AI layer.
-            </p>
-            <div class="hero-actions" data-animate="fade-up" data-delay="300">
-                <a href="#contact" class="btn btn-primary">
-                    <span>Claim Your Free AI Audit</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </a>
-                <a href="#projects" class="btn btn-secondary">
-                    <span>View My Work</span>
-                </a>
-            </div>
-            <div class="hero-stats" data-animate="fade-up" data-delay="400">
-                <div class="stat">
-                    <span class="stat-number" data-count="3">0</span><span class="stat-suffix">+</span>
-                    <span class="stat-label">Years Experience</span>
+    <main id="top">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <div class="pill reveal"><span class="dot"></span> Open to contract, part-time &amp; project work</div>
+                    <h1 class="hero-title reveal" style="--d:80ms">
+                        <span class="ln">Hi, I'm Ayush.</span>
+                        <span class="ln">I build <em>AI-powered</em></span>
+                        <span class="ln">web &amp; mobile products.</span>
+                    </h1>
+                    <p class="hero-sub reveal" style="--d:160ms">
+                        WhatsApp agents, voice and RAG pipelines — plus the backends, dashboards and mobile apps
+                        around them. 15+ products shipped end to end with Python, FastAPI, LangGraph, Next.js and Flutter.
+                    </p>
+                    <div class="hero-actions reveal" style="--d:240ms">
+                        <a href="#contact" class="btn btn-primary btn-lg"><span>Start a project</span><svg class="ico"><use href="#i-arrow" /></svg></a>
+                        <a href="#work" class="btn btn-ghost btn-lg"><span>See the work</span></a>
+                    </div>
+                    <ul class="hero-meta reveal" style="--d:320ms">
+                        <li>Faridabad, India · remote-first</li>
+                        <li>Meta-certified front-end developer</li>
+                        <li>Independent since Jan 2026</li>
+                    </ul>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat-number" data-count="17">0</span><span class="stat-suffix">+</span>
-                    <span class="stat-label">Projects Shipped</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat-number" data-count="5">0</span><span class="stat-suffix">+</span>
-                    <span class="stat-label">AI Systems Live</span>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <div class="scroll-line"></div>
-        </div>
-    </section>
 
-    <!-- Tech Marquee Section -->
-    <div class="tech-marquee-container">
-        <p class="marquee-title">Integrating With Tools You Already Use</p>
-        <div class="tech-marquee">
+                <!-- Live WhatsApp-agent demo -->
+                <div class="hero-demo reveal" style="--d:200ms">
+                    <div class="phone" id="phone" aria-label="Simulated WhatsApp conversation with an AI support agent" role="img">
+                        <div class="phone-notch"></div>
+                        <div class="phone-head">
+                            <span class="avatar">D2C</span>
+                            <div>
+                                <strong>Brand Support</strong>
+                                <small>AI agent · online</small>
+                            </div>
+                        </div>
+                        <div class="phone-body" id="phoneBody">
+                            <div class="msg msg-in voice" data-step="0">
+                                <svg class="ico"><use href="#i-mic" /></svg>
+                                <span class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                                <small>0:07</small>
+                            </div>
+                            <div class="msg msg-in transcript" data-step="1">
+                                <span class="tag">transcribed</span>
+                                “Bhai, mera order #4821 kab tak aayega?”
+                            </div>
+                            <div class="typing" data-step="typing"><i></i><i></i><i></i></div>
+                            <div class="msg msg-out" data-step="3">
+                                Namaste! Order #4821 abhi transit mein hai — kal tak deliver ho jaana chahiye. Tracking link bhej raha hoon.
+                                <small>10:42 ✓✓</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="trace" id="trace" aria-hidden="true">
+                        <div class="trace-row" data-step="1"><span>01</span> Whisper → transcript</div>
+                        <div class="trace-row" data-step="2"><span>02</span> lang <b>hinglish</b> · intent <b>order_status</b></div>
+                        <div class="trace-row" data-step="3"><span>03</span> LangGraph action → WhatsApp reply</div>
+                    </div>
+                    <p class="demo-note">Simulated conversation, modelled on my D2C Voice AI Agent.</p>
+                </div>
+            </div>
+
+            <!-- Proof strip -->
+            <div class="container">
+                <dl class="proof reveal" style="--d:100ms">
+                    <div><dt><span data-count="15">0</span>+</dt><dd>products on GitHub, built end to end</dd></div>
+                    <div><dt><span data-count="140">0</span></dt><dd>automated tests in CI on ONDC Super Seller</dd></div>
+                    <div><dt><span data-count="10">0</span></dt><dd>intents routed by the LangGraph voice agent</dd></div>
+                    <div><dt><span data-count="7">0</span></dt><dd>retailers polled every 5 min by DropAlert</dd></div>
+                </dl>
+            </div>
+        </section>
+
+        <!-- Marquee -->
+        <div class="marquee" aria-hidden="true">
             <div class="marquee-track">
-                <!-- Set 1 -->
-                <span class="marquee-item">Shopify</span>
-                <span class="marquee-item">WordPress</span>
-                <span class="marquee-item">WhatsApp API</span>
-                <span class="marquee-item">React / Next.js</span>
-                <span class="marquee-item">Zapier</span>
-                <span class="marquee-item">n8n</span>
-                <span class="marquee-item">ChatGPT / OpenAI</span>
-                <span class="marquee-item">Meta Ads</span>
-                <!-- Set 2 (Duplicates for infinite scroll) -->
-                <span class="marquee-item">Shopify</span>
-                <span class="marquee-item">WordPress</span>
-                <span class="marquee-item">WhatsApp API</span>
-                <span class="marquee-item">React / Next.js</span>
-                <span class="marquee-item">Zapier</span>
-                <span class="marquee-item">n8n</span>
-                <span class="marquee-item">ChatGPT / OpenAI</span>
-                <span class="marquee-item">Meta Ads</span>
+                <span>LangGraph</span><span>LangChain</span><span>RAG</span><span>FastAPI</span><span>Celery · Redis</span><span>Supabase</span><span>Next.js</span><span>TypeScript</span><span>Flutter</span><span>WhatsApp Business API</span><span>Docker</span><span>GitHub Actions</span>
+                <span>LangGraph</span><span>LangChain</span><span>RAG</span><span>FastAPI</span><span>Celery · Redis</span><span>Supabase</span><span>Next.js</span><span>TypeScript</span><span>Flutter</span><span>WhatsApp Business API</span><span>Docker</span><span>GitHub Actions</span>
             </div>
         </div>
-    </div>
 
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="container">
-            <div class="section-header" data-animate="fade-up">
-                <span class="section-tag">What I Do</span>
-                <h2 class="section-title">AI Solutions That <span class="gradient-text">Drive Results</span></h2>
-                <p class="section-desc">I transform complex AI technology into simple, powerful tools that grow your
-                    business.</p>
-            </div>
-            <div class="services-grid">
-                <!-- Service 1: WhatsApp AI Agents -->
-                <div class="service-card" data-animate="fade-up" data-delay="0">
-                    <div class="service-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                            <path d="M8 10h.01M12 10h.01M16 10h.01" />
-                        </svg>
-                    </div>
-                    <h3 class="service-title">WhatsApp AI Agents</h3>
-                    <p class="service-desc">Production-grade WhatsApp bots powered by LangGraph — transcribe voice notes, handle Hinglish/multilingual queries, resolve tickets automatically 24/7.</p>
-                    <ul class="service-features">
-                        <li>Voice note transcription (Groq Whisper)</li>
-                        <li>Hindi / English / Hinglish NLP</li>
-                        <li>Order tracking, refunds, FAQs</li>
-                        <li>Human agent handoff built-in</li>
+        <!-- Work -->
+        <section class="section" id="work">
+            <div class="container">
+                <header class="section-head reveal">
+                    <p class="eyebrow">Selected work</p>
+                    <h2>Products I've built, <em>end to end.</em></h2>
+                    <p class="lede">Real repositories, real stacks. Open any card for the idea, what it does and how it's put together — then read the code on GitHub.</p>
+                </header>
+
+                <div class="bento">
+                    <article class="card card-lg c-ondc reveal" data-project="ondc" tabindex="0" role="button" aria-label="Open ONDC Super Seller details">
+                        <div class="card-art" aria-hidden="true">
+                            <div class="art-catalog"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                        </div>
+                        <div class="card-body">
+                            <span class="card-idx">01</span>
+                            <h3>ONDC Super Seller</h3>
+                            <p>A WhatsApp-first catalog and inventory platform. Sellers update products by text, voice note or photo; a Next.js dashboard handles bulk import, stock and activity.</p>
+                            <ul class="chips"><li>FastAPI</li><li>Celery + Redis</li><li>Supabase</li><li>Next.js</li><li>140 tests in CI</li></ul>
+                        </div>
+                        <svg class="card-go"><use href="#i-arrow-ur" /></svg>
+                    </article>
+
+                    <article class="card card-md c-d2c reveal" style="--d:80ms" data-project="d2c" tabindex="0" role="button" aria-label="Open D2C Voice AI Agent details">
+                        <div class="card-art" aria-hidden="true">
+                            <div class="art-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                        </div>
+                        <div class="card-body">
+                            <span class="card-idx">02</span>
+                            <h3>D2C Voice AI Agent</h3>
+                            <p>Hindi and Hinglish voice notes in, resolved support tickets out — routed through a 10-intent LangGraph state machine.</p>
+                            <ul class="chips"><li>LangGraph</li><li>Groq Whisper</li><li>Twilio</li><li>Next.js</li></ul>
+                        </div>
+                        <svg class="card-go"><use href="#i-arrow-ur" /></svg>
+                    </article>
+
+                    <article class="card card-sm c-tender reveal" data-project="tender" tabindex="0" role="button" aria-label="Open TenderPilot AI details">
+                        <div class="card-art" aria-hidden="true">
+                            <div class="art-doc"><i></i><i></i><i></i><i></i><i></i></div>
+                        </div>
+                        <div class="card-body">
+                            <span class="card-idx">03</span>
+                            <h3>TenderPilot AI</h3>
+                            <p>Reads RFP documents, drafts answers from your knowledge base and fills portal fields with a Chrome extension.</p>
+                            <ul class="chips"><li>React</li><li>Hybrid search</li><li>MV3 extension</li></ul>
+                        </div>
+                        <svg class="card-go"><use href="#i-arrow-ur" /></svg>
+                    </article>
+
+                    <article class="card card-sm c-invo reveal" style="--d:80ms" data-project="invo" tabindex="0" role="button" aria-label="Open InvoSmith details">
+                        <div class="card-art" aria-hidden="true">
+                            <div class="art-invoice"><b>GST</b><i></i><i></i><i></i><u></u></div>
+                        </div>
+                        <div class="card-body">
+                            <span class="card-idx">04</span>
+                            <h3>InvoSmith</h3>
+                            <p>Paste messy Hinglish project notes, get a GST-compliant invoice PDF with UPI details.</p>
+                            <ul class="chips"><li>Next.js</li><li>Gemini → Groq fallback</li><li>PWA</li></ul>
+                        </div>
+                        <svg class="card-go"><use href="#i-arrow-ur" /></svg>
+                    </article>
+
+                    <article class="card card-sm c-sasta reveal" style="--d:160ms" data-project="sasta" tabindex="0" role="button" aria-label="Open SastaBot and DropAlert details">
+                        <div class="card-art" aria-hidden="true">
+                            <div class="art-bars"><i></i><i></i><i></i><i></i><i></i></div>
+                        </div>
+                        <div class="card-body">
+                            <span class="card-idx">05</span>
+                            <h3>SastaBot &amp; DropAlert</h3>
+                            <p>Price intelligence for India: compare across five platforms in Hindi or English, and get alerted on drops.</p>
+                            <ul class="chips"><li>LangGraph</li><li>Playwright</li><li>Celery</li></ul>
+                        </div>
+                        <svg class="card-go"><use href="#i-arrow-ur" /></svg>
+                    </article>
+
+                    <article class="card card-wide c-mobile reveal" data-project="mobile" tabindex="0" role="button" aria-label="Open IndiFit and FlowOS details">
+                        <div class="card-art" aria-hidden="true">
+                            <div class="art-phones"><span></span><span></span><span></span></div>
+                        </div>
+                        <div class="card-body">
+                            <span class="card-idx">06</span>
+                            <h3>IndiFit &amp; FlowOS</h3>
+                            <p>Offline-first Flutter apps. IndiFit tracks workouts and nutrition with 573 bundled Indian foods and Health Connect / HealthKit sync. FlowOS is an energy-aware focus planner with AI daily reports.</p>
+                            <ul class="chips"><li>Flutter</li><li>Riverpod</li><li>Drift (SQLite)</li><li>Supabase</li><li>Gemini</li></ul>
+                        </div>
+                        <svg class="card-go"><use href="#i-arrow-ur" /></svg>
+                    </article>
+                </div>
+
+                <div class="also reveal">
+                    <span class="also-label">Also built</span>
+                    <ul>
+                        <li><b>Private Second Brain</b> — fully local RAG on Ollama + ChromaDB</li>
+                        <li><b>WhatsApp RFQ Agent</b> — 10-node LangGraph quote-to-dispatch flow</li>
+                        <li><b>India Signal</b> — BSE filings &amp; Hindi news signal generator</li>
+                        <li><b>Reclaim</b> — SwiftUI iOS photo cleaner using Vision</li>
                     </ul>
-                    <div class="service-price">
-                        <span class="price-from">Starting from</span>
-                        <span class="price-amount">&#8377;12,000</span>
+                    <a class="link-arrow" href="https://github.com/ayushraibuilds" target="_blank" rel="noopener">All repositories on GitHub <svg class="ico"><use href="#i-arrow-ur" /></svg></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section class="section section-dark" id="how">
+            <div class="container">
+                <header class="section-head reveal">
+                    <p class="eyebrow">Under the hood</p>
+                    <h2>From a voice note to a <em>resolved ticket.</em></h2>
+                    <p class="lede">The shape of a production WhatsApp agent, as I build them. Hover or tap a step.</p>
+                </header>
+
+                <div class="flow reveal" id="flow">
+                    <div class="flow-line" aria-hidden="true"><span></span></div>
+                    <ol class="flow-steps">
+                        <li class="step is-active" data-flow="0" tabindex="0">
+                            <span class="step-n">01</span>
+                            <h3>Webhook in</h3>
+                            <p>Meta Cloud API or Twilio posts the message. Signatures are verified, duplicates dropped, rate limits applied.</p>
+                        </li>
+                        <li class="step" data-flow="1" tabindex="0">
+                            <span class="step-n">02</span>
+                            <h3>Transcribe</h3>
+                            <p>Voice notes go through Groq Whisper. Hindi, English and Hinglish are all fair game.</p>
+                        </li>
+                        <li class="step" data-flow="2" tabindex="0">
+                            <span class="step-n">03</span>
+                            <h3>Understand</h3>
+                            <p>A LangGraph state machine detects language and classifies one of 10 intents: order status, refund, exchange, payment issue, FAQ and more.</p>
+                        </li>
+                        <li class="step" data-flow="3" tabindex="0">
+                            <span class="step-n">04</span>
+                            <h3>Act</h3>
+                            <p>An adapter layer talks to the store's systems. RAG answers from the brand's own knowledge. Circuit breakers fall back between LLM providers.</p>
+                        </li>
+                        <li class="step" data-flow="4" tabindex="0">
+                            <span class="step-n">05</span>
+                            <h3>Reply or hand off</h3>
+                            <p>The answer goes back on WhatsApp; anything unclear is escalated to a human with the full context. An ops dashboard keeps threads visible.</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <ul class="principles reveal">
+                    <li><svg class="ico"><use href="#i-check" /></svg> Tested: automated test suites run in GitHub Actions CI</li>
+                    <li><svg class="ico"><use href="#i-check" /></svg> Observable: logs, retries and an ops dashboard, not a black box</li>
+                    <li><svg class="ico"><use href="#i-check" /></svg> Deployable: Docker, Railway / Render / Vercel, runbooks included</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section class="section" id="services">
+            <div class="container">
+                <header class="section-head reveal">
+                    <p class="eyebrow">What I can do for you</p>
+                    <h2>Four ways to <em>work together.</em></h2>
+                </header>
+                <div class="services">
+                    <article class="svc reveal">
+                        <span class="svc-n">A</span>
+                        <h3>WhatsApp &amp; voice AI agents</h3>
+                        <p>Support, ordering and catalog agents on the WhatsApp Business API. Hinglish voice notes, order lookups, human handoff, ops dashboard.</p>
+                        <ul><li>LangGraph · LangChain · RAG</li><li>Meta Cloud API / Twilio</li><li>Groq Whisper, Gemini, Ollama</li></ul>
+                    </article>
+                    <article class="svc reveal" style="--d:80ms">
+                        <span class="svc-n">B</span>
+                        <h3>Full-stack web apps &amp; SaaS MVPs</h3>
+                        <p>Auth, database, dashboards, payments or invoicing, tests and CI — a product you can put in front of users, not a demo.</p>
+                        <ul><li>Next.js · React · TypeScript</li><li>FastAPI · Node.js · Supabase / PostgreSQL</li><li>Docker · GitHub Actions</li></ul>
+                    </article>
+                    <article class="svc reveal" style="--d:160ms">
+                        <span class="svc-n">C</span>
+                        <h3>Mobile apps &amp; automations</h3>
+                        <p>Offline-first Flutter apps, Chrome extensions and background workers that quietly remove manual work.</p>
+                        <ul><li>Flutter · Riverpod · Drift</li><li>Celery · Redis · Playwright</li><li>n8n / Python automations</li></ul>
+                    </article>
+                    <article class="svc reveal" style="--d:240ms">
+                        <span class="svc-n">D</span>
+                        <h3>Designs, demos &amp; sites</h3>
+                        <p>Landing pages, clickable prototypes and polished product demos that make an idea easy to understand and easy to fund.</p>
+                        <ul><li>Business &amp; portfolio sites</li><li>Prototype + walkthrough video</li><li>WordPress / Bootstrap too</li></ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stack -->
+        <section class="section section-dark" id="stack">
+            <div class="container">
+                <header class="section-head reveal">
+                    <p class="eyebrow">Toolbox</p>
+                    <h2>Modern AI stack, <em>solid web foundations.</em></h2>
+                    <p class="lede">I started in front-end and enterprise web, and kept growing into backend, mobile and AI. The foundations still show up in everything I ship.</p>
+                </header>
+                <div class="stack reveal">
+                    <div class="stack-col">
+                        <h3>AI &amp; LLM</h3>
+                        <ul class="chips lg"><li>LangGraph</li><li>LangChain</li><li>RAG</li><li>ChromaDB</li><li>Hybrid search</li><li>Groq</li><li>Gemini</li><li>Whisper</li><li>Ollama</li><li>Prompt design</li></ul>
+                    </div>
+                    <div class="stack-col">
+                        <h3>Backend &amp; data</h3>
+                        <ul class="chips lg"><li>Python</li><li>FastAPI</li><li>Celery</li><li>Redis</li><li>Node.js / Express</li><li>Supabase</li><li>PostgreSQL</li><li>SQL / MySQL</li><li>REST &amp; webhooks</li><li>.NET</li><li>Java</li></ul>
+                    </div>
+                    <div class="stack-col">
+                        <h3>Frontend &amp; mobile</h3>
+                        <ul class="chips lg"><li>Next.js</li><li>React</li><li>TypeScript</li><li>JavaScript</li><li>Angular</li><li>Tailwind</li><li>Bootstrap</li><li>HTML5 / CSS3</li><li>Flutter</li><li>PWA</li><li>Chrome extensions</li></ul>
+                    </div>
+                    <div class="stack-col">
+                        <h3>Integrations &amp; DevOps</h3>
+                        <ul class="chips lg"><li>WhatsApp Business API</li><li>Twilio</li><li>Telegram Bot API</li><li>Docker</li><li>GitHub Actions</li><li>Railway · Render · Vercel · Netlify</li><li>WordPress</li><li>Git</li><li>Agile</li><li>Software testing</li></ul>
                     </div>
                 </div>
-                <!-- Service 2: AI SaaS Tools -->
-                <div class="service-card" data-animate="fade-up" data-delay="100">
-                    <div class="service-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="3" y="3" width="18" height="18" rx="2" />
-                            <path d="M3 9h18M9 21V9" />
-                        </svg>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="section" id="about">
+            <div class="container about">
+                <figure class="portrait reveal">
+                    <img src="assets/profile.jpeg" alt="Portrait of Ayush Rai" width="808" height="1190" loading="lazy">
+                    <figcaption><span class="dot"></span> Faridabad, India</figcaption>
+                </figure>
+                <div class="about-copy">
+                    <p class="eyebrow reveal">About</p>
+                    <h2 class="reveal">A developer who likes <em>finishing things.</em></h2>
+                    <div class="prose reveal">
+                        <p>I'm an electronics engineer who found software. I spent my first professional years building client websites and an Angular / .NET / SQL application in Bengaluru, then went independent in January 2026 to build AI products full-time.</p>
+                        <p>Since then I've shipped 15+ projects around Indian commerce use cases — ONDC catalogs, GST invoicing, Hinglish voice support and price tracking. I care about the unglamorous parts: tests, retries, runbooks, and dashboards a non-technical person can actually use.</p>
+                        <p>I work solo, communicate in writing, and show progress often.</p>
                     </div>
-                    <h3 class="service-title">AI SaaS Tools</h3>
-                    <p class="service-desc">Full-stack SaaS with AI at the core — auth, billing, subscriptions, PDF generation, RAG pipelines. Not demos, real production systems.</p>
-                    <ul class="service-features">
-                        <li>Document parsing &amp; AI generation</li>
-                        <li>Subscription tiers + Razorpay billing</li>
-                        <li>RAG &amp; vector search pipelines</li>
-                        <li>Next.js + FastAPI + Supabase stack</li>
+                    <ol class="timeline reveal">
+                        <li><time>Jan 2026 – now</time><div><b>Independent AI Product Developer</b><span>WhatsApp agents, RAG, voice, mobile and SaaS dashboards.</span></div></li>
+                        <li><time>2023</time><div><b>Meta Front-End Developer Certificate</b><span>Professional certificate on Coursera.</span></div></li>
+                        <li><time>Jun 2022 – Oct 2023</time><div><b>Web Developer, Intelliquant Technomy</b><span>5+ client sites; Angular + .NET + SQL web app; 20+ UI components; bug count down 30%.</span></div></li>
+                        <li><time>2018 – 2022</time><div><b>B.E. Electronics &amp; Communication, REVA University</b><span>Published research on sign-language detection with CNNs (96.41% accuracy, 26 letters).</span></div></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="section section-dark" id="pricing">
+            <div class="container">
+                <header class="section-head reveal">
+                    <p class="eyebrow">Pricing</p>
+                    <h2>Clear starting points, <em>scoped per project.</em></h2>
+                    <p class="lede">Indicative “from” prices in Indian rupees. Every project gets a written scope and fixed quote; USD quotes on request.</p>
+                </header>
+                <div class="price-list reveal">
+                    <div class="price-row"><div><h3>Prototype or product demo</h3><p>Working front end with sample data, 2–3 flows, animated walkthrough.</p></div><div class="price"><small>from</small> ₹10,000</div></div>
+                    <div class="price-row"><div><h3>Automation sprint</h3><p>Three documented workflows in n8n or Python — invoices, reports, lead routing.</p></div><div class="price"><small>from</small> ₹15,000</div></div>
+                    <div class="price-row"><div><h3>Business or portfolio website</h3><p>Next.js site with contact and WhatsApp hooks, simple admin, deployed.</p></div><div class="price"><small>from</small> ₹20,000</div></div>
+                    <div class="price-row is-hot"><div><span class="badge">My core focus</span><h3>WhatsApp AI agent</h3><p>LangGraph agent, webhooks, Supabase backend, handoff and ops dashboard.</p></div><div class="price"><small>from</small> ₹60,000</div></div>
+                    <div class="price-row"><div><h3>Web app or SaaS MVP</h3><p>Next.js + Supabase/FastAPI, auth, payments or invoicing, dashboard, tests and CI.</p></div><div class="price"><small>from</small> ₹80,000</div></div>
+                </div>
+                <p class="fineprint reveal">Typical terms: 40–50% upfront, milestones for larger builds, 7 days of post-launch support included. Part-time and hourly engagements available.</p>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section" id="faq">
+            <div class="container narrow">
+                <header class="section-head reveal">
+                    <p class="eyebrow">FAQ</p>
+                    <h2>Before you <em>write to me.</em></h2>
+                </header>
+                <div class="faq reveal">
+                    <details><summary>How does a project start?</summary><p>You send a short description on WhatsApp or the form below. I reply within a day with questions or a rough plan, then send a written scope, timeline and fixed quote. Work begins after the first payment.</p></details>
+                    <details><summary>How do we communicate while you build?</summary><p>Async-first: a shared channel, short written updates and a working preview link so you can see progress rather than read about it. Calls are fine when they help.</p></details>
+                    <details><summary>Do I own the code?</summary><p>Yes. On final payment the repository, deployment access and documentation are handed over to you.</p></details>
+                    <details><summary>What if the AI gets something wrong?</summary><p>I design for that: tests, fallbacks between LLM providers, confidence checks and a clean human handoff path, so unusual cases reach a person instead of a wrong answer.</p></details>
+                    <details><summary>Do you take part-time or hourly work?</summary><p>Yes — contract and part-time engagements are welcome, especially for teams who need an extra full-stack or AI engineer for a few weeks.</p></details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="section contact" id="contact">
+            <div class="container contact-grid">
+                <div class="contact-copy reveal">
+                    <p class="eyebrow">Contact</p>
+                    <h2>Have something to <em>build?</em></h2>
+                    <p class="lede">Tell me what you're trying to do. I'll reply with honest thoughts — including when it's not a fit.</p>
+                    <ul class="contact-links">
+                        <li><a href="https://wa.me/919340499553" target="_blank" rel="noopener"><svg class="ico"><use href="#i-whatsapp" /></svg><span><b>WhatsApp</b>+91 93404 99553</span></a></li>
+                        <li><a href="mailto:ayushraibuilds@gmail.com"><svg class="ico"><use href="#i-mail" /></svg><span><b>Email</b>ayushraibuilds@gmail.com</span></a></li>
+                        <li><a href="https://www.linkedin.com/in/ayush-rai-b12808236/" target="_blank" rel="noopener"><svg class="ico"><use href="#i-linkedin" /></svg><span><b>LinkedIn</b>ayush-rai-b12808236</span></a></li>
+                        <li><a href="https://github.com/ayushraibuilds" target="_blank" rel="noopener"><svg class="ico"><use href="#i-github" /></svg><span><b>GitHub</b>ayushraibuilds</span></a></li>
                     </ul>
-                    <div class="service-price">
-                        <span class="price-from">Starting from</span>
-                        <span class="price-amount">&#8377;20,000</span>
-                    </div>
-                </div>
-                <!-- Service 3: Workflow Automation -->
-                <div class="service-card" data-animate="fade-up" data-delay="200">
-                    <div class="service-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="3" />
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                        </svg>
-                    </div>
-                    <h3 class="service-title">Workflow Automation</h3>
-                    <p class="service-desc">Eliminate manual work with n8n, Zapier, and Make pipelines — classify leads, auto-reply emails, sync CRM data, and log everything automatically.</p>
-                    <ul class="service-features">
-                        <li>Lead capture &#x2192; AI classify &#x2192; auto-reply</li>
-                        <li>n8n + Gemini / OpenAI pipelines</li>
-                        <li>CRM &amp; Google Sheets integration</li>
-                        <li>Delivered in 3&#8211;5 days</li>
-                    </ul>
-                    <div class="service-price">
-                        <span class="price-from">Starting from</span>
-                        <span class="price-amount">&#8377;5,000</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tech Stack Section -->
-    <section class="skills" id="skills">
-        <div class="container">
-            <div class="section-header" data-animate="fade-up">
-                <span class="section-tag">My Arsenal</span>
-                <h2 class="section-title">Tech <span class="gradient-text">Stack</span></h2>
-                <p class="section-desc">Technologies I use to build powerful solutions.</p>
-            </div>
-            <div class="skills-grid" data-animate="fade-up" data-delay="100">
-                <div class="skill-category">
-                    <h3 class="skill-cat-title">Frontend</h3>
-                    <div class="skill-pills">
-                        <span class="skill-pill">HTML5</span>
-                        <span class="skill-pill">CSS3</span>
-                        <span class="skill-pill">JavaScript</span>
-                        <span class="skill-pill">React</span>
-                        <span class="skill-pill">Angular</span>
-                        <span class="skill-pill">Bootstrap</span>
-                        <span class="skill-pill">Sass</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3 class="skill-cat-title">Backend & DB</h3>
-                    <div class="skill-pills">
-                        <span class="skill-pill">Node.js</span>
-                        <span class="skill-pill">Express.js</span>
-                        <span class="skill-pill">Python</span>
-                        <span class="skill-pill">.NET</span>
-                        <span class="skill-pill">SQL</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3 class="skill-cat-title">AI & ML</h3>
-                    <div class="skill-pills">
-                        <span class="skill-pill">ChatGPT / Claude API</span>
-                        <span class="skill-pill">AI Agents</span>
-                        <span class="skill-pill">n8n / Zapier</span>
-                        <span class="skill-pill">CNN</span>
-                        <span class="skill-pill">Computer Vision</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3 class="skill-cat-title">Tools & CMS</h3>
-                    <div class="skill-pills">
-                        <span class="skill-pill">Git & GitHub</span>
-                        <span class="skill-pill">WordPress</span>
-                        <span class="skill-pill">Netlify / Vercel</span>
-                        <span class="skill-pill">Figma</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <div class="container">
-            <div class="section-header" data-animate="fade-up">
-                <span class="section-tag">Portfolio</span>
-                <h2 class="section-title">Recent <span class="gradient-text">Projects</span></h2>
-                <p class="section-desc">Full-stack web apps and AI solutions I've built recently.</p>
-            </div>
-            <div class="projects-grid">
-
-                <!-- Project 1: TenderPilot AI -->
-                <div class="project-card" data-animate="fade-up" data-delay="0" data-project-id="tenderpilot"
-                    style="cursor: pointer;">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                <polyline points="14 2 14 8 20 8" />
-                                <line x1="16" y1="13" x2="8" y2="13" />
-                                <line x1="16" y1="17" x2="8" y2="17" />
-                            </svg>
-                        </div>
-                        <div class="project-overlay">
-                            <span class="project-view">AI SaaS &#x2192;</span>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-tags">
-                            <span class="tag">React + Node.js</span>
-                            <span class="tag">Vector Search</span>
-                            <span class="tag">Chrome Extension</span>
-                        </div>
-                        <h3 class="project-title">TenderPilot AI</h3>
-                        <p class="project-desc">AI Tender/RFP auto-filler for agencies and IT teams. Parses uploaded RFP documents with hybrid vector search, auto-drafts answers from your knowledge base, and fills portal fields via a Chrome extension. Includes subscription tiers (Free/Pro/Team).</p>
-                        <div class="project-result">
-                            <span class="result-label">Impact:</span>
-                            <span class="result-value">Saves 3 Days Per Bid</span>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Project 2: D2C Voice Agent -->
-                <div class="project-card" data-animate="fade-up" data-delay="100" data-project-id="d2c-voice"
-                    style="cursor: pointer;">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-                                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                                <line x1="12" y1="19" x2="12" y2="23" />
-                                <line x1="8" y1="23" x2="16" y2="23" />
-                            </svg>
+                <div class="form-card reveal" style="--d:100ms">
+                    <form id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+                        <input type="hidden" name="form-name" value="contact">
+                        <p class="hp" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+                        <div class="field-row">
+                            <label class="field"><span>Name</span><input type="text" name="name" id="name" autocomplete="name" required></label>
+                            <label class="field"><span>Email</span><input type="email" name="email" id="email" autocomplete="email" required></label>
                         </div>
-                        <div class="project-overlay">
-                            <span class="project-view">AI Agent &#x2192;</span>
+                        <label class="field"><span>What do you need?</span>
+                            <select name="service" id="service" required>
+                                <option value="" disabled selected>Choose one…</option>
+                                <option>WhatsApp / voice AI agent</option>
+                                <option>Web app or SaaS MVP</option>
+                                <option>Mobile app (Flutter)</option>
+                                <option>Automation or integration</option>
+                                <option>Design, demo or website</option>
+                                <option>Contract / part-time engineer</option>
+                                <option>Something else</option>
+                            </select>
+                        </label>
+                        <label class="field"><span>Tell me about it</span><textarea name="message" id="message" rows="5" placeholder="What are you building, who is it for, and when do you need it?" required></textarea></label>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn"><span>Send message</span><svg class="ico"><use href="#i-arrow" /></svg></button>
+                            <button type="button" class="btn btn-ghost btn-lg" id="waBtn"><svg class="ico"><use href="#i-whatsapp" /></svg><span>Send on WhatsApp</span></button>
                         </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-tags">
-                            <span class="tag">LangGraph</span>
-                            <span class="tag">Groq Whisper</span>
-                            <span class="tag">Twilio WhatsApp</span>
-                        </div>
-                        <h3 class="project-title">D2C Voice AI Agent</h3>
-                        <p class="project-desc">Enterprise WhatsApp support agent for Indian D2C brands. Transcribes Hindi/English voice notes via Groq Whisper, classifies 10 intent types in a LangGraph pipeline, and resolves orders, refunds &amp; tickets autonomously — no human needed for 80% of tickets.</p>
-                        <div class="project-result">
-                            <span class="result-label">Stack:</span>
-                            <span class="result-value">FastAPI + LangGraph + Groq</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 3: Invosmith -->
-                <div class="project-card" data-animate="fade-up" data-delay="200" data-project-id="invosmith"
-                    style="cursor: pointer;">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="2" y="3" width="20" height="14" rx="2" />
-                                <path d="M8 21h8M12 17v4" />
-                            </svg>
-                        </div>
-                        <div class="project-overlay">
-                            <span class="project-view">SaaS Tool &#x2192;</span>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-tags">
-                            <span class="tag">Next.js</span>
-                            <span class="tag">Gemini + Groq</span>
-                            <span class="tag">PWA</span>
-                        </div>
-                        <h3 class="project-title">Invosmith</h3>
-                        <p class="project-desc">AI invoice &amp; proposal generator for Indian freelancers. Paste messy project notes (even in Hinglish) &#x2192; GST-compliant PDF in 60 seconds. Gemini &#x2192; Groq fallback chain, 5 niche templates, document history, and email delivery via Resend.</p>
-                        <div class="project-result">
-                            <span class="result-label">Impact:</span>
-                            <span class="result-value">60-Second GST Invoices</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 4: SastaBot -->
-                <div class="project-card" data-animate="fade-up" data-delay="300" data-project-id="sastabot"
-                    style="cursor: pointer;">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <circle cx="9" cy="21" r="1" />
-                                <circle cx="20" cy="21" r="1" />
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-                            </svg>
-                        </div>
-                        <div class="project-overlay">
-                            <span class="project-view">WhatsApp Bot &#x2192;</span>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-tags">
-                            <span class="tag">FastAPI</span>
-                            <span class="tag">LangGraph</span>
-                            <span class="tag">Redis + Twilio</span>
-                        </div>
-                        <h3 class="project-title">SastaBot &#x2014; AI Price Comparison</h3>
-                        <p class="project-desc">Multilingual WhatsApp price-comparison agent. Ask in Hindi or English &#x2014; compare prices across Amazon, Flipkart, Blinkit, Zepto &amp; Instamart instantly. FastAPI backend, Redis cache, and affiliate API integration.</p>
-                        <div class="project-result">
-                            <span class="result-label">Markets:</span>
-                            <span class="result-value">5 Platforms, 2 Languages</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 5: ONDC Super Seller -->
-                <div class="project-card" data-animate="fade-up" data-delay="400" data-project-id="ondc"
-                    style="cursor: pointer;">
-                    <div class="project-image">
-                        <div class="project-placeholder">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                                <line x1="3" y1="9" x2="21" y2="9" />
-                                <line x1="9" y1="21" x2="9" y2="9" />
-                            </svg>
-                        </div>
-                        <div class="project-overlay">
-                            <span class="project-view">B2B Dashboard &#x2192;</span>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="project-tags">
-                            <span class="tag">Next.js</span>
-                            <span class="tag">FastAPI + Supabase</span>
-                            <span class="tag">WhatsApp API</span>
-                        </div>
-                        <h3 class="project-title">ONDC Super Seller Platform</h3>
-                        <p class="project-desc">Full-stack B2B dashboard for India's ONDC e-commerce network. WhatsApp-based catalog management, real-time order analytics, bulk product import, JWT + API key auth, 140+ automated tests, and CI/CD via GitHub Actions.</p>
-                        <div class="project-result">
-                            <span class="result-label">Status:</span>
-                            <span class="result-value">Production Ready</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Process Section -->
-    <section class="process" id="process">
-        <div class="container">
-            <div class="section-header" data-animate="fade-up">
-                <span class="section-tag">How I Work</span>
-                <h2 class="section-title">Simple <span class="gradient-text">3-Step Process</span></h2>
-                <p class="section-desc">From idea to launch in days, not months.</p>
-            </div>
-            <div class="process-steps">
-                <div class="process-step" data-animate="fade-up" data-delay="0">
-                    <div class="step-number">01</div>
-                    <div class="step-content">
-                        <h3>Send a Message</h3>
-                        <p>Drop me a WhatsApp message or email describing your business and what you need.
-                            I'll reply within a few hours with ideas on how AI can help. <strong>No calls needed —
-                                completely async.</strong></p>
-                    </div>
-                </div>
-                <div class="process-connector"></div>
-                <div class="process-step" data-animate="fade-up" data-delay="100">
-                    <div class="step-number">02</div>
-                    <div class="step-content">
-                        <h3>Build & Iterate</h3>
-                        <p>I build your solution and share progress daily. You get to test and give feedback at every
-                            stage. No surprises, no delays.</p>
-                    </div>
-                </div>
-                <div class="process-connector"></div>
-                <div class="process-step" data-animate="fade-up" data-delay="200">
-                    <div class="step-number">03</div>
-                    <div class="step-content">
-                        <h3>Launch & Support</h3>
-                        <p>I deploy your solution and provide 7 days of free support. You also get documentation so your
-                            team can manage it independently.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <div class="section-header" data-animate="fade-up">
-                <span class="section-tag">Client Love</span>
-                <h2 class="section-title">What People <span class="gradient-text">Say</span></h2>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card" data-animate="fade-up" data-delay="0">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"The WhatsApp chatbot completely transformed how we handle patient
-                        appointments. We went from 30+ missed calls a day to zero. Absolutely worth it."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">DK</div>
-                        <div class="author-info">
-                            <span class="author-name">Dr. Kavitha</span>
-                            <span class="author-role">SmileCare Dental Clinic</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card" data-animate="fade-up" data-delay="100">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"Our lead follow-up was a mess before. Now every lead gets an instant
-                        response and personalized nurturing. Our conversion rate literally tripled."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">RP</div>
-                        <div class="author-info">
-                            <span class="author-name">Rahul Patel</span>
-                            <span class="author-role">FashionBay E-commerce</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card" data-animate="fade-up" data-delay="200">
-                    <div class="testimonial-stars">★★★★★</div>
-                    <p class="testimonial-text">"I was skeptical about AI content, but the quality was incredible. Each
-                        post is SEO-optimized and sounds like a human wrote it. Best investment this year."</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">AS</div>
-                        <div class="author-info">
-                            <span class="author-name">Ananya Singh</span>
-                            <span class="author-role">TechPulse SaaS</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing" id="pricing">
-        <div class="container">
-            <div class="section-header" data-animate="fade-up">
-                <span class="section-tag">Investment</span>
-                <h2 class="section-title">Transparent <span class="gradient-text">Pricing</span></h2>
-                <p class="section-desc">Clear starting rates to help you plan your budget. No hidden fees or surprises.
-                </p>
-            </div>
-
-            <div class="pricing-grid">
-                <!-- Basic -->
-                <div class="pricing-card" data-animate="fade-up" data-delay="0">
-                    <div class="pricing-header">
-                        <h3>Workflow Automations</h3>
-                        <div class="price"><span>from</span> $50 <small>(₹4,000)</small></div>
-                    </div>
-                </div>
-                <!-- Standard -->
-                <div class="pricing-card popular" data-animate="fade-up" data-delay="100">
-                    <div class="pricing-badge">Most Popular</div>
-                    <div class="pricing-header">
-                        <h3>Custom AI Chatbots</h3>
-                        <div class="price"><span>from</span> $100 <small>(₹8,000)</small></div>
-                    </div>
-                </div>
-                <!-- Premium -->
-                <div class="pricing-card" data-animate="fade-up" data-delay="200">
-                    <div class="pricing-header">
-                        <h3>Full-Stack Web Apps</h3>
-                        <div class="price"><span>from</span> $180 <small>(₹15,000)</small></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section" id="contact">
-        <div class="container">
-            <div class="cta-content" data-animate="fade-up">
-                <h2 class="cta-title">Ready to <span class="gradient-text">Automate</span> Your Business?</h2>
-                <p class="cta-desc">Send me a quick message on WhatsApp or email. I'll analyze your business and show
-                    you
-                    exactly how AI can save you hours every week.</p>
-                <div class="cta-form-wrapper">
-                    <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-                        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
-                        <input type="hidden" name="subject" value="New Portfolio Lead">
-                        <input type="hidden" name="redirect" value="false">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="text" name="name" id="name" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" name="email" id="email" placeholder="Email Address" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <input type="tel" name="phone" id="phone" placeholder="Phone / WhatsApp Number">
-                            </div>
-                            <div class="form-group">
-                                <select name="service" id="service" required>
-                                    <option value="" disabled selected>What do you need?</option>
-                                    <option value="WhatsApp AI Agent">WhatsApp AI Agent</option>
-                                    <option value="AI SaaS Tool">AI SaaS Tool</option>
-                                    <option value="Workflow Automation">Workflow Automation</option>
-                                    <option value="RAG / Knowledge System">RAG / Knowledge System</option>
-                                    <option value="Full-Stack Web App">Full-Stack Web App</option>
-                                    <option value="other">Something Else</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="message" id="message" placeholder="Tell me about your project..." rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full">
-                            <span>Send Message</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                            </svg>
-                        </button>
+                        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
                     </form>
-                    <div class="cta-alt">
-                        <p>Or reach out directly:</p>
-                        <div class="social-links">
-                            <a href="https://wa.me/919340499553" class="social-link whatsapp" target="_blank"
-                                rel="noopener" aria-label="WhatsApp">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                                </svg>
-                                WhatsApp
-                            </a>
-                            <a href="mailto:ayushraibuilds@gmail.com" class="social-link email-link" aria-label="Email">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <path
-                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                    <polyline points="22,6 12,13 2,6" />
-                                </svg>
-                                Email Me
-                            </a>
-                            <a href="https://www.linkedin.com/in/ayush-rai-b12808236/" class="social-link linkedin"
-                                target="_blank" rel="noopener" aria-label="LinkedIn">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                                </svg>
-                                LinkedIn
-                            </a>
-                            <a href="https://github.com/Ashtorments" class="social-link github" target="_blank"
-                                rel="noopener" aria-label="GitHub">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                                </svg>
-                                GitHub
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="logo-icon">⚡</span>
-                    <span class="logo-text">AI<span class="accent">Craft</span></span>
-                </div>
-                <p class="footer-copy">© 2026 Ayush Rai. Built with AI, powered by results.</p>
-            </div>
+        <div class="container footer-in">
+            <span class="brand"><span class="brand-mark">AR</span><span class="brand-name">Ayush Rai</span></span>
+            <p>© <span id="year">2026</span> Ayush Rai · Faridabad, India · Built by hand, tested in a browser.</p>
+            <a href="#top" class="link-arrow">Back to top <svg class="ico"><use href="#i-arrow-ur" /></svg></a>
         </div>
     </footer>
 
-    <!-- Project Modal Overlay -->
-    <div class="modal-overlay" id="projectModal">
-        <div class="modal-container">
-            <button class="modal-close" id="closeModal">&times;</button>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="modal-tag" id="modalTag">Category</span>
-                    <h2 class="modal-title" id="modalTitle">Project Title</h2>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-section">
-                        <h3>The Problem</h3>
-                        <p id="modalProblem">...</p>
-                    </div>
-                    <div class="modal-section">
-                        <h3>The Solution</h3>
-                        <p id="modalSolution">...</p>
-                    </div>
-                    <div class="modal-section">
-                        <h3>The Result</h3>
-                        <p id="modalResult">...</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-primary" id="modalLink" target="_blank" rel="noopener" style="display:none">
-                        <span>View on GitHub →</span>
-                    </a>
-                </div>
+    <!-- Project dialog -->
+    <dialog class="dialog" id="projectDialog" aria-labelledby="dlgTitle">
+        <div class="dialog-in">
+            <button class="dialog-close" id="dlgClose" aria-label="Close"><svg class="ico"><use href="#i-close" /></svg></button>
+            <p class="eyebrow" id="dlgTag">Project</p>
+            <h3 id="dlgTitle">Title</h3>
+            <p class="dlg-lede" id="dlgLede"></p>
+            <div class="dlg-grid">
+                <section><h4>What it does</h4><ul id="dlgDoes"></ul></section>
+                <section><h4>How it's built</h4><ul id="dlgBuilt"></ul></section>
+            </div>
+            <ul class="chips" id="dlgStack"></ul>
+            <div class="dlg-actions">
+                <a class="btn btn-primary" id="dlgLink" href="#" target="_blank" rel="noopener"><svg class="ico"><use href="#i-github" /></svg><span>View on GitHub</span></a>
+                <a class="btn btn-ghost" href="#contact" id="dlgTalk"><span>Want something similar?</span></a>
             </div>
         </div>
-    </div>
+    </dialog>
 
-    <!-- AI Chatbot Widget -->
-    <div class="chat-panel" id="chatPanel">
+    <!-- AI assistant widget -->
+    <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Chat with Ayush's AI assistant" aria-hidden="true">
         <div class="chat-header">
             <div class="chat-header-info">
-                <div class="chat-avatar">⚡</div>
+                <span class="chat-avatar">AR</span>
                 <div class="chat-header-text">
-                    <h4>Ayush's AI Assistant</h4>
-                    <span>Online</span>
+                    <h4>Ayush's AI assistant</h4>
+                    <span>Ask about projects, pricing or availability</span>
                 </div>
             </div>
             <div class="chat-header-actions">
-                <button id="chatClearBtn" title="Clear chat">🗑️</button>
-                <button id="chatCloseBtn" title="Close">✕</button>
+                <button id="chatClearBtn" title="Clear chat" aria-label="Clear chat"><svg class="ico"><use href="#i-trash" /></svg></button>
+                <button id="chatCloseBtn" title="Close" aria-label="Close chat"><svg class="ico"><use href="#i-close" /></svg></button>
             </div>
         </div>
-        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
         <div class="chat-input-area">
-            <textarea class="chat-input" id="chatInput" placeholder="Ask about my projects, services..." rows="1"></textarea>
-            <button class="chat-send-btn" id="chatSendBtn">
-                <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-            </button>
+            <textarea class="chat-input" id="chatInput" placeholder="Ask about my work…" rows="1" aria-label="Message"></textarea>
+            <button class="chat-send-btn" id="chatSendBtn" aria-label="Send"><svg class="ico"><use href="#i-send" /></svg></button>
         </div>
     </div>
-    <button class="chat-bubble" id="chatBubble" title="Chat with AI">
-        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-    </button>
+    <button class="chat-bubble" id="chatBubble" title="Chat with AI" aria-label="Open chat"><svg class="ico"><use href="#i-chat" /></svg></button>
 
-    <!-- Sticky WhatsApp -->
-    <a href="https://wa.me/919340499553" class="whatsapp-float" target="_blank" rel="noopener">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-            <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-        </svg>
-    </a>
-
-    <script src="three-hero.js"></script>
-    <script src="script.js"></script>
-    <script src="chatbot.js"></script>
+    <script src="script.js" defer></script>
+    <script src="chatbot.js" defer></script>
 </body>
 
 </html>
